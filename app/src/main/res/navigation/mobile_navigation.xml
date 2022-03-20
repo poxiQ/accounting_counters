@@ -3,26 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_profile">
-
-    <fragment
-        android:id="@+id/navigation_profile"
-        android:name="glebova.rsue.countwater.ui.pofile.ProfileFragment"
-        android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/navigation_count"
-        android:name="glebova.rsue.countwater.ui.count.CountFragment"
-        android:label="count_fragment"
-        tools:layout="@layout/count_fragment" />
-    <fragment
-        android:id="@+id/navigation_statistics"
-        android:name="glebova.rsue.countwater.ui.statistics.StatisticsFragment"
-        android:label="statistics_fragment"
-        tools:layout="@layout/statistics_fragment" />
-    <fragment
-        android:id="@+id/navigation_master"
-        android:name="glebova.rsue.countwater.ui.master.MasterFragment"
-        android:label="master_fragment"
-        tools:layout="@layout/master_fragment" />
+    app:startDestination="@id/graph_profile">
+    <include app:graph="@navigation/graph_profile" />
+    <include app:graph="@navigation/graph_count" />
+    <include app:graph="@navigation/graph_master" />
+    <include app:graph="@navigation/graph_statistics" />
 </navigation>

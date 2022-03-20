@@ -2,27 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_profile"
+        android:id="@+id/graph_profile"
         android:enabled="true"
         android:icon="@drawable/ic_profile"
-        android:title="@string/title_profile"/>
+        android:title="@string/title_profile" />
 
     <item
-        android:id="@+id/navigation_count"
+        android:id="@+id/graph_count"
         android:icon="@drawable/ic_logo"
         android:title="@string/title_count" />
 
     <item
-        android:id="@+id/navigation_statistics"
+        android:id="@+id/graph_statistics"
         android:enabled="true"
         android:icon="@drawable/ic_statistics"
-        android:title="@string/title_statistics"/>
+        android:title="@string/title_statistics" />
 
     <item
-        android:id="@+id/navigation_master"
+        android:id="@+id/graph_master"
         android:icon="@drawable/ic_master"
         android:title="@string/title_master" />
-
-
-
 </menu>
