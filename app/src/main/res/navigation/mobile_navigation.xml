@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_profile">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="glebova.rsue.countwater.ui.pofile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_count"
+        android:name="glebova.rsue.countwater.ui.count.CountFragment"
+        android:label="count_fragment"
+        tools:layout="@layout/count_fragment" />
+    <fragment
+        android:id="@+id/navigation_statistics"
+        android:name="glebova.rsue.countwater.ui.statistics.StatisticsFragment"
+        android:label="statistics_fragment"
+        tools:layout="@layout/statistics_fragment" />
+    <fragment
+        android:id="@+id/navigation_master"
+        android:name="glebova.rsue.countwater.ui.master.MasterFragment"
+        android:label="master_fragment"
+        tools:layout="@layout/master_fragment" />
+</navigation>
