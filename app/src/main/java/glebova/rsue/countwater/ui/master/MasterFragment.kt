@@ -1,37 +1,54 @@
 package glebova.rsue.countwater.ui.master
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import glebova.rsue.countwater.BlankFragment
-import glebova.rsue.countwater.R
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import glebova.rsue.countwater.adapters.CountAdapter
+import glebova.rsue.countwater.adapters.MasterAdapter
+import glebova.rsue.countwater.databinding.MasterFragmentBinding
+import glebova.rsue.countwater.models.MasterModel
+import glebova.rsue.countwater.ui.count.CountFragmentDirections
 
 class MasterFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MasterFragment()
+    private lateinit var adapter: MasterAdapter
+    val lists: MutableList<MasterModel> = ArrayList()
+
+    private var _binding: MasterFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = MasterFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private lateinit var viewModel: MasterViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.master_fragment, container, false)
-
-        return view
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (lists.count() == 0){
+            buildDisplayData()
+        }
+        initRecyclerView()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
+    private fun buildDisplayData() {
+        lists.add(MasterModel("поверка счетчиков"))
+    }
+
+    private fun initRecyclerView() {
+        MasterAdapter(lists) { onButtonCLicked() }.let {
+            binding.masterRecycler.adapter = it
+            adapter = it
+        }
+    }
+
+    private fun onButtonCLicked() =
+        findNavController().navigate(CountFragmentDirections.actionCountFragmentToBlankFragment())
 }

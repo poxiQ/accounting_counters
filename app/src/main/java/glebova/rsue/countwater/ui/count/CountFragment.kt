@@ -29,7 +29,9 @@ class CountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.name = "Глебова Ульяна"
         binding.facecount = "123456789"
-        buildDisplayData()
+        if (counts_list_hot.count() == 0){
+            buildDisplayData()
+        }
         initRecyclerView()
     }
 
@@ -58,5 +60,4 @@ class CountFragment : Fragment() {
 
     private fun onButtonCLicked() =
         findNavController().navigate(CountFragmentDirections.actionCountFragmentToBlankFragment())
-
 }

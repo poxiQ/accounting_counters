@@ -12,9 +12,9 @@
     <string name="add">добавить показания</string>
     <string name="request1">создать заявку</string>
     <string name="cold_water">Холодное водоснабжение</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="skan">сканировать</string>
     <string name="send">отправить</string>
+    <string name="master">вызвать мастера</string>
 
 </resources>
