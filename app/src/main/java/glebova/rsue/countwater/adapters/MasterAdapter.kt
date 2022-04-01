@@ -6,12 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import glebova.rsue.countwater.databinding.ListsItemBinding
 import glebova.rsue.countwater.models.MasterModel
 
-class MasterAdapter(var lists: List<MasterModel>, private val callback: MasterAdapterCallBack) :
+class MasterAdapter(var lists: List<MasterModel>) :
     RecyclerView.Adapter<MasterAdapter.MasterViewHolder>() {
-
-        fun interface MasterAdapterCallBack {
-            fun onClick()
-        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MasterViewHolder = MasterViewHolder(
             ListsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,9 +22,7 @@ class MasterAdapter(var lists: List<MasterModel>, private val callback: MasterAd
 
             fun bind() {
                 binding.nameLists.text = lists.get(position).title
-                binding.buttonMaster.setOnClickListener {
-                    callback.onClick()
-                }
+                binding.textDate.text = lists.get(position).date.toString()
             }
         }
     }

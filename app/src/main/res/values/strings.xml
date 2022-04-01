@@ -16,5 +16,7 @@
     <string name="skan">сканировать</string>
     <string name="send">отправить</string>
     <string name="master">вызвать мастера</string>
+    <string name="date">dd.mm.YYYY</string>
+    <string name="all_requests">Ваши заявки</string>
 
 </resources>

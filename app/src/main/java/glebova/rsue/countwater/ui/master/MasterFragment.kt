@@ -1,16 +1,15 @@
 package glebova.rsue.countwater.ui.master
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import glebova.rsue.countwater.adapters.CountAdapter
 import glebova.rsue.countwater.adapters.MasterAdapter
 import glebova.rsue.countwater.databinding.MasterFragmentBinding
 import glebova.rsue.countwater.models.MasterModel
-import glebova.rsue.countwater.ui.count.CountFragmentDirections
+import java.util.*
 
 class MasterFragment : Fragment() {
 
@@ -27,7 +26,7 @@ class MasterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (lists.count() == 0){
+        if (lists.count() == 0) {
             buildDisplayData()
         }
         initRecyclerView()
@@ -39,16 +38,13 @@ class MasterFragment : Fragment() {
     }
 
     private fun buildDisplayData() {
-        lists.add(MasterModel("поверка счетчиков"))
+        lists.add(MasterModel("поверка счетчиков", SimpleDateFormat("dd MM yyyy HH:mm", Locale.getDefault()).format(Date()).toString()))
     }
 
     private fun initRecyclerView() {
-        MasterAdapter(lists) { onButtonCLicked() }.let {
+        MasterAdapter(lists).let {
             binding.masterRecycler.adapter = it
             adapter = it
         }
     }
-
-    private fun onButtonCLicked() =
-        findNavController().navigate(CountFragmentDirections.actionCountFragmentToBlankFragment())
 }
