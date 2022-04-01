@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.adapters.MasterAdapter
 import glebova.rsue.countwater.databinding.MasterFragmentBinding
 import glebova.rsue.countwater.models.MasterModel
+import glebova.rsue.countwater.ui.count.CountFragmentDirections
 import java.util.*
 
 class MasterFragment : Fragment() {
@@ -30,6 +32,9 @@ class MasterFragment : Fragment() {
             buildDisplayData()
         }
         initRecyclerView()
+        binding.request.setOnClickListener {
+            findNavController().navigate(MasterFragmentDirections.actionMasterFragmentToRequestFragment())
+        }
     }
 
     override fun onDestroyView() {
@@ -38,7 +43,7 @@ class MasterFragment : Fragment() {
     }
 
     private fun buildDisplayData() {
-        lists.add(MasterModel("поверка счетчиков", SimpleDateFormat("dd MM yyyy HH:mm", Locale.getDefault()).format(Date()).toString()))
+        lists.add(MasterModel("поверка счетчиков", SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date()).toString()))
     }
 
     private fun initRecyclerView() {

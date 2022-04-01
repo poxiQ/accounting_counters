@@ -18,5 +18,6 @@
     <string name="master">вызвать мастера</string>
     <string name="date">dd.mm.YYYY</string>
     <string name="all_requests">Ваши заявки</string>
+    <string name="hiht">опишите свою проблему</string>
 
 </resources>

@@ -22,7 +22,7 @@ class MasterAdapter(var lists: List<MasterModel>) :
 
             fun bind() {
                 binding.nameLists.text = lists.get(position).title
-                binding.textDate.text = lists.get(position).date.toString()
+                binding.textDate.text = lists.get(position).date
             }
         }
     }

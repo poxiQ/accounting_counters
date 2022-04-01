@@ -16,5 +16,14 @@
         android:id="@+id/masterFragment"
         android:name="glebova.rsue.countwater.ui.master.MasterFragment"
         android:label="master_fragment"
-        tools:layout="@layout/master_fragment" />
+        tools:layout="@layout/master_fragment" >
+        <action
+            android:id="@+id/action_masterFragment_to_requestFragment"
+            app:destination="@id/requestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestFragment"
+        android:name="glebova.rsue.countwater.RequestFragment"
+        android:label="fragment_request"
+        tools:layout="@layout/fragment_request" />
 </navigation>
