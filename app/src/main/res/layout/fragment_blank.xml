@@ -39,7 +39,8 @@
                 android:inputType="number"
                 android:minHeight="48dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberView" />
+                app:layout_constraintTop_toBottomOf="@+id/numberView"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/buttonSkan"
@@ -53,6 +54,17 @@
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+
+            <ImageView
+                android:id="@+id/viewImg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/buttonSkan"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/buttonSend"

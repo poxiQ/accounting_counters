@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.adapters.MasterAdapter
 import glebova.rsue.countwater.databinding.MasterFragmentBinding
 import glebova.rsue.countwater.models.MasterModel
-import glebova.rsue.countwater.ui.count.CountFragmentDirections
 import java.util.*
 
 class MasterFragment : Fragment() {

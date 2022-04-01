@@ -19,5 +19,7 @@
     <string name="date">dd.mm.YYYY</string>
     <string name="all_requests">Ваши заявки</string>
     <string name="hiht">опишите свою проблему</string>
+    <string name="choose_with_gallery">выбрать из галереи</string>
+    <string name="make_photo">сделать фото</string>
 
 </resources>
