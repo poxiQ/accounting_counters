@@ -10,12 +10,19 @@ import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.adapters.MasterAdapter
 import glebova.rsue.countwater.databinding.MasterFragmentBinding
 import glebova.rsue.countwater.models.MasterModel
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
 import java.util.*
+
+var token: String = ""
 
 class MasterFragment : Fragment() {
 
     private lateinit var adapter: MasterAdapter
     val lists: MutableList<MasterModel> = ArrayList()
+    val client = OkHttpClient()
 
     private var _binding: MasterFragmentBinding? = null
     private val binding get() = _binding!!
@@ -28,7 +35,7 @@ class MasterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (lists.count() == 0) {
-            buildDisplayData()
+//            run()
         }
         initRecyclerView()
         binding.request.setOnClickListener {
@@ -41,8 +48,17 @@ class MasterFragment : Fragment() {
         _binding = null
     }
 
-    private fun buildDisplayData() {
-        lists.add(MasterModel("поверка счетчиков", SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date()).toString()))
+    private fun run() {
+        val request = Request.Builder()
+            .url("http://192.168.1.203:8080/masterlists/api/getzaiavki?token=$token")
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            println(response.body!!.string())
+        }
     }
 
     private fun initRecyclerView() {

@@ -25,5 +25,9 @@
         android:id="@+id/requestFragment"
         android:name="glebova.rsue.countwater.RequestFragment"
         android:label="fragment_request"
-        tools:layout="@layout/fragment_request" />
+        tools:layout="@layout/fragment_request" >
+        <action
+            android:id="@+id/action_requestFragment_to_masterFragment"
+            app:destination="@id/masterFragment" />
+    </fragment>
 </navigation>
