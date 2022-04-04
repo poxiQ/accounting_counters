@@ -1,11 +1,8 @@
 package glebova.rsue.countwater.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import glebova.rsue.countwater.R
 import glebova.rsue.countwater.databinding.NumberItemBinding
 import glebova.rsue.countwater.models.CountModel
 
@@ -28,7 +25,7 @@ class CountAdapter(var counters: List<CountModel>, private val callback: CountAd
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            binding.number.text = counters.get(position).title
+            binding.number.text = counters[bindingAdapterPosition].title
             binding.buttonAdd.setOnClickListener {
                 callback.onClick()
             }
