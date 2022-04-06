@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".AuthFragment">
 
 
@@ -13,15 +14,21 @@
 
         <EditText
             android:id="@+id/editTextTextPersonName"
-            android:layout_width="wrap_content"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/et_style"
+            android:elevation="5dp"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/login"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:text="Name"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="14dp"
+            android:stateListAnimator="@null"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="12sp"
+            android:translationZ="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -31,14 +38,22 @@
 
         <EditText
             android:id="@+id/editTextTextPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/et_style"
+            android:elevation="5dp"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:minHeight="48dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="14dp"
+            android:stateListAnimator="@null"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="12sp"
+            android:translationZ="5dp"
+            app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
@@ -47,13 +62,20 @@
             app:layout_constraintVertical_bias="0.063"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/enter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="5dp"
             android:fontFamily="@font/montserrat"
+            android:paddingHorizontal="22dp"
+            android:paddingVertical="15dp"
+            android:stateListAnimator="@null"
             android:text="@string/enter"
-            android:textSize="14sp"
+            android:textColor="@color/dark"
+            android:textSize="12sp"
+            android:translationZ="5dp"
+            app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +89,8 @@
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

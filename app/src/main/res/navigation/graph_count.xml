@@ -1,10 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,7 +10,7 @@
         android:id="@+id/countFragment"
         android:name="glebova.rsue.countwater.ui.count.CountFragment"
         android:label="CountFragment"
-        tools:layout="@layout/count_fragment">
+        tools:layout="@layout/fragment_count">
         <action
             android:id="@+id/action_countFragment_to_blankFragment"
             app:destination="@id/blankFragment" />

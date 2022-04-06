@@ -2,11 +2,11 @@ package glebova.rsue.countwater.ui.statistics
 
 import androidx.fragment.app.viewModels
 import glebova.rsue.countwater.base.BaseFragment
-import glebova.rsue.countwater.databinding.StatisticsFragmentBinding
+import glebova.rsue.countwater.databinding.FragmentStatisticsBinding
 
-class StatisticsFragment : BaseFragment<StatisticsFragmentBinding>() {
+class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
 
     private val viewModel: StatisticsViewModel by viewModels()
 
-    override fun initializeBinding() = StatisticsFragmentBinding.inflate(layoutInflater)
+    override fun initializeBinding() = FragmentStatisticsBinding.inflate(layoutInflater)
 }

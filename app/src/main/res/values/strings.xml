@@ -22,5 +22,8 @@
     <string name="choose_with_gallery">выбрать из галереи</string>
     <string name="make_photo">сделать фото</string>
     <string name="enter"><![CDATA[войти >]]></string>
+    <string name="loading">loading...</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
 
 </resources>

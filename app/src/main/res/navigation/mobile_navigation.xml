@@ -7,5 +7,4 @@
     <include app:graph="@navigation/graph_count" />
     <include app:graph="@navigation/graph_master" />
     <include app:graph="@navigation/graph_statistics" />
-    <include app:graph="@navigation/graph_auth" />
 </navigation>

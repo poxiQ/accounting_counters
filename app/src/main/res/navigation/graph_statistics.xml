@@ -16,5 +16,5 @@
         android:id="@+id/statisticsFragment"
         android:name="glebova.rsue.countwater.ui.statistics.StatisticsFragment"
         android:label="statistics_fragment"
-        tools:layout="@layout/statistics_fragment" />
+        tools:layout="@layout/fragment_statistics" />
 </navigation>

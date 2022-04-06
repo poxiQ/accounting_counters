@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="shrine_pink_100">#D1C4E9</color>
     <color name="shrine_pink_900">#000363</color>
+    <color name="dark">#00023C</color>
 </resources>

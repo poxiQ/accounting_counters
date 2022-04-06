@@ -1,29 +1,21 @@
 package glebova.rsue.countwater.ui.count
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.adapters.CountAdapter
-import glebova.rsue.countwater.databinding.CountFragmentBinding
+import glebova.rsue.countwater.base.BaseFragment
+import glebova.rsue.countwater.databinding.FragmentCountBinding
 import glebova.rsue.countwater.models.CountModel
 
-class CountFragment : Fragment() {
+class CountFragment : BaseFragment<FragmentCountBinding>() {
+
+    override fun initializeBinding() = FragmentCountBinding.inflate(layoutInflater)
 
     private lateinit var adapter_hot: CountAdapter
     private lateinit var adapter_cold: CountAdapter
     val counts_list_hot: MutableList<CountModel> = ArrayList()
     val counts_list_cold: MutableList<CountModel> = ArrayList()
-
-    private var _binding: CountFragmentBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = CountFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,11 +25,6 @@ class CountFragment : Fragment() {
             buildDisplayData()
         }
         initRecyclerView()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildDisplayData() {

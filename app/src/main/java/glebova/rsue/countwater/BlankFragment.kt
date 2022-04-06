@@ -12,7 +12,9 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentBlankBinding
+import glebova.rsue.countwater.databinding.FragmentNavContainerBinding
 import glebova.rsue.countwater.dialogs.ChoosePhotoDialog
 import glebova.rsue.countwater.extensions.getFileName
 import id.zelory.compressor.Compressor
@@ -30,10 +32,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class BlankFragment : Fragment() {
-    private var _binding: FragmentBlankBinding? = null
-    private val binding get() = _binding!!
+class BlankFragment : BaseFragment<FragmentBlankBinding>() {
+
+    override fun initializeBinding() = FragmentBlankBinding.inflate(layoutInflater)
+
     private lateinit var photoFile: File
+
     private val openGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             it?.let { uri ->
@@ -52,13 +56,9 @@ class BlankFragment : Fragment() {
                 }
             }
         }
+
     private val openCameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
         onImageTake()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentBlankBinding.inflate(layoutInflater)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

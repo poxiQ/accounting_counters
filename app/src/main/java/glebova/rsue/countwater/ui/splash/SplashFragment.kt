@@ -1,20 +1,23 @@
-/*
- * Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 package glebova.rsue.countwater.ui.splash
 
+import android.os.Bundle
+import android.view.View
+import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentSplashBinding
 
+var token: String = ""
+
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
+    override fun initializeBinding() = FragmentSplashBinding.inflate(layoutInflater)
 
-    override fun initializeBinding(): FragmentSplashBinding = FragmentSplashBinding.inflate(layoutInflater)
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (token == "") {
+            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToGraphAuth())
+        } else {
+            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToBottomNavFragment())
+        }
+    }
 }
