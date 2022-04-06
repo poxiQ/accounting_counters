@@ -100,7 +100,6 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
         val file = File(photoFile.absolutePath)
         val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
         Log.d("size", photoFile.length().toString())
-        binding.viewImg.setImageBitmap(bitmap)
 
         GlobalScope.launch(Dispatchers.IO) {
             val compressedImageFile = Compressor.compress(requireContext(), file) {
@@ -114,7 +113,6 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
 
     private fun onGetImage(file: File, uri: Uri) {
         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        binding.viewImg.setImageBitmap(bitmap)
     }
 
     private fun createImageFile(directory: File): File {

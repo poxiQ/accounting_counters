@@ -25,5 +25,6 @@
     <string name="loading">loading...</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
+    <string name="count">ввести показания</string>
 
 </resources>
