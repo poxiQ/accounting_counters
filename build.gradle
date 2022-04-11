@@ -6,8 +6,9 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath"androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1"
     }
+
 }
 plugins {
     id 'com.android.application' version '7.1.1' apply false

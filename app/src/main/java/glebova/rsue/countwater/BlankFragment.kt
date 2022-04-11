@@ -23,20 +23,26 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.FormBody
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.apache.commons.io.IOUtils
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
+@DelicateCoroutinesApi
 class BlankFragment : BaseFragment<FragmentBlankBinding>() {
 
     override fun initializeBinding() = FragmentBlankBinding.inflate(layoutInflater)
 
     private lateinit var photoFile: File
+    private lateinit var encodedString: String
+    private val client = OkHttpClient()
 
     private val openGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
@@ -95,10 +101,10 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
+
     private fun onImageTake() {
         val file = File(photoFile.absolutePath)
-        val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+//        val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
         Log.d("size", photoFile.length().toString())
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -106,13 +112,31 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
                 default(width = 640, format = Bitmap.CompressFormat.WEBP)
             }
             Log.d("size", compressedImageFile.length().toString())
-            val encodedString: String = Base64.getEncoder().encodeToString(file.readBytes())
-            val client = OkHttpClient()
+            encodedString = Base64.getEncoder().encodeToString(file.readBytes())
+//            run()
         }
     }
 
     private fun onGetImage(file: File, uri: Uri) {
-        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+//        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+        val f = File(file.absolutePath)
+        encodedString = Base64.getEncoder().encodeToString(f.readBytes())
+//        run()
+    }
+
+    private fun run() {
+        val formBody = FormBody.Builder()
+            .add("search", encodedString)
+            .build()
+        val request = Request.Builder()
+            .url("http://192.168.1.203:8080/polls/who")
+            .post(formBody)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            Log.d("JSON", response.body!!.string())
+        }
     }
 
     private fun createImageFile(directory: File): File {
