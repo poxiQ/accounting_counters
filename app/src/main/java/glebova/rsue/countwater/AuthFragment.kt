@@ -12,10 +12,13 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @DelicateCoroutinesApi
@@ -54,7 +57,9 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            if (!response.isSuccessful){
+                throw IOException("Unexpected code $response")
+            }
             val result = response.body!!.string()
             token = JSONObject(result).getString("token")
             Log.d("JSON", token)

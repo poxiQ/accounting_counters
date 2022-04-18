@@ -27,6 +27,7 @@ import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.apache.commons.io.IOUtils
+import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -104,7 +105,6 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
 
     private fun onImageTake() {
         val file = File(photoFile.absolutePath)
-//        val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
         Log.d("size", photoFile.length().toString())
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -113,15 +113,16 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             }
             Log.d("size", compressedImageFile.length().toString())
             encodedString = Base64.getEncoder().encodeToString(file.readBytes())
-//            run()
+            run()
         }
     }
 
     private fun onGetImage(file: File, uri: Uri) {
-//        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
         val f = File(file.absolutePath)
         encodedString = Base64.getEncoder().encodeToString(f.readBytes())
-//        run()
+        GlobalScope.launch(Dispatchers.IO) {
+            run()
+        }
     }
 
     private fun run() {
@@ -129,13 +130,16 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .add("search", encodedString)
             .build()
         val request = Request.Builder()
-            .url("http://192.168.1.203:8080/polls/who")
+            .url("http://192.168.43.35:8080/water/sendphoto")
             .post(formBody)
             .build()
 
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            Log.d("JSON", response.body!!.string())
+            val result = response.body!!.string()
+            Log.d("JSON", result)
+            Log.d("JSON", JSONObject(result).getString("555"))
+            binding.editTextNumber.setText(JSONObject(result).getString("555"))
         }
     }
 

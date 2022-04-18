@@ -26,5 +26,9 @@
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="count">ввести показания</string>
+    <string name="save">сохранить изменения</string>
+    <string name="address">введите новый адресс</string>
+    <string name="name">введите новое имя</string>
+    <string name="telephone">введите новый телефон</string>
 
 </resources>

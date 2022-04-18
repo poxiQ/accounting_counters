@@ -54,7 +54,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
                     lists.add(
                         MasterModel(
                             "сантехник",
-                            hell.getJSONObject(i).getString("DateTime")
+                            hell.getJSONObject(i).getString("DateTime").substring(0, 10)
                         )
                     )
                 }
@@ -62,7 +62,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
                     lists.add(
                         MasterModel(
                             "электрик",
-                            hell.getJSONObject(i).getString("DateTime")
+                            hell.getJSONObject(i).getString("DateTime").substring(0, 10)
                         )
                     )
                 }
@@ -70,7 +70,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
                     lists.add(
                         MasterModel(
                             "муж на час",
-                            hell.getJSONObject(i).getString("DateTime")
+                            hell.getJSONObject(i).getString("DateTime").substring(0, 10)
                         )
                     )
                 }
@@ -91,7 +91,6 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
             val result = response.body!!.string()
             Log.d("JSON", result)
             buildDisplayData(result)
-//            initRecyclerView()
             return result
         }
 

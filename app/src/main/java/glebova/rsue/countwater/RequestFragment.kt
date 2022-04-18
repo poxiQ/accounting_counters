@@ -1,6 +1,5 @@
 package glebova.rsue.countwater
 
-import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,7 +20,6 @@ import okhttp3.Request
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @DelicateCoroutinesApi
@@ -35,7 +33,7 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var data = ArrayList<String>()
+        val data = ArrayList<String>()
         data.add("Сантехник")
         data.add("Электрик")
         data.add("Муж на час")
