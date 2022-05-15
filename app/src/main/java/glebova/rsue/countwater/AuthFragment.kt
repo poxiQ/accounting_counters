@@ -2,6 +2,7 @@ package glebova.rsue.countwater
 
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -36,9 +37,13 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             when {
                 login.trim() == "" -> {
                     Toast.makeText(activity?.applicationContext, "заполните поле", Toast.LENGTH_LONG).show()
+                    binding.editTextTextPersonName.setBackgroundResource(R.drawable.et_style_error)
+                    binding.editTextTextPassword.setBackgroundResource(R.drawable.et_style)
                 }
                 password.trim() == "" -> {
                     Toast.makeText(activity?.applicationContext, "заполните поле", Toast.LENGTH_LONG).show()
+                    binding.editTextTextPassword.setBackgroundResource(R.drawable.et_style_error)
+                    binding.editTextTextPersonName.setBackgroundResource(R.drawable.et_style)
                 }
                 else -> {
                     GlobalScope.launch(Dispatchers.IO) {

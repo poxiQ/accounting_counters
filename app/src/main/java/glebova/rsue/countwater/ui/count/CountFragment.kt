@@ -34,7 +34,6 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.name = sPref!!.getString("fullname", "").toString()
-        Log.d("BBBBBBB", sPref!!.getString("fullname", "").toString())
         if (counts_list_hot.count() == 0) {
             GlobalScope.launch(Dispatchers.IO) {
                 response = get()
@@ -48,7 +47,6 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
             }
             initRecyclerView()
         }
-        Log.d("counts", counts_list_hot.count().toString())
     }
 
     private fun buildDisplayData(response: String) {
@@ -97,8 +95,6 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
             binding.countsRecyclerCold.adapter = it
         }
         response = ""
-//        counts_list_hot.clear()
-//        counts_list_cold.clear()
     }
 
     private fun onButtonCLicked() =
