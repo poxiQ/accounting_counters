@@ -10,9 +10,6 @@
             name="name"
             type="String" />
 
-        <variable
-            name="facecount"
-            type="String" />
     </data>
 
     <ScrollView
@@ -27,7 +24,7 @@
 
             <TextView
                 android:id="@+id/fio"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
@@ -37,19 +34,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/face_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@{facecount}"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

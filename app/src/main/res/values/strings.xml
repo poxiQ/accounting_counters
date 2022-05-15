@@ -18,7 +18,7 @@
     <string name="master">вызвать мастера</string>
     <string name="date">dd.mm.YYYY</string>
     <string name="all_requests">Ваши заявки</string>
-    <string name="hiht">опишите свою проблему</string>
+    <string name="hiht">Опишите свою проблему</string>
     <string name="choose_with_gallery">выбрать из галереи</string>
     <string name="make_photo">сделать фото</string>
     <string name="enter"><![CDATA[войти >]]></string>
@@ -27,11 +27,13 @@
     <string name="password">Пароль</string>
     <string name="count">ввести показания</string>
     <string name="save">сохранить изменения</string>
-    <string name="address">введите новый адресс</string>
-    <string name="name">введите новое имя</string>
-    <string name="telephone">введите новый телефон</string>
+    <string name="address">Введите новый адресс</string>
+    <string name="name">Введите новое имя</string>
+    <string name="telephone">Введите новый телефон</string>
     <string name="new_login">При первом запуске вы можете сменить пароль на более надежный или же оставить ранее используемый</string>
     <string name="newlogin">Новый логин</string>
     <string name="newpassword">Новый пароль</string>
+    <string name="tel">Телефон:</string>
+    <string name="place">Адрес:</string>
 
 </resources>

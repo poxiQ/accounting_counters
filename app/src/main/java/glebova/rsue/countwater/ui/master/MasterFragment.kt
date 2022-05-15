@@ -17,9 +17,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 var response = ""
 
@@ -37,7 +34,13 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
         super.onViewCreated(view, savedInstanceState)
         if (lists.count() == 0) {
             GlobalScope.launch(Dispatchers.IO) {
-                response = run()
+                response = get()
+            }
+            initRecyclerView()
+        }else {
+            lists.clear()
+            GlobalScope.launch(Dispatchers.IO) {
+                response = get()
             }
             initRecyclerView()
         }
@@ -80,9 +83,10 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
         Log.d("-------------------", lists.toString())
     }
 
-    private fun run(): String {
+    private fun get(): String {
         val request = Request.Builder()
-            .url("http://192.168.43.35:8080/water/service")
+//            .url("http://192.168.43.35:8080/water/service/")
+            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/service/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
@@ -105,5 +109,6 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
             binding.masterRecycler.adapter = it
             adapter = it
         }
+        response = ""
     }
 }

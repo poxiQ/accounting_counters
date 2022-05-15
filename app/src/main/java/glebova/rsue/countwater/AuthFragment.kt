@@ -3,6 +3,7 @@ package glebova.rsue.countwater
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
@@ -10,6 +11,7 @@ import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentAuthBinding
 import glebova.rsue.countwater.ui.master.response
 import glebova.rsue.countwater.ui.splash.sPref
+import glebova.rsue.countwater.ui.splash.token
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -17,7 +19,6 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import java.io.IOException
 
 
 @DelicateCoroutinesApi
@@ -41,16 +42,20 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 }
                 else -> {
                     GlobalScope.launch(Dispatchers.IO) {
-                        response = run(login, password)
+                        response = get_auth(login, password)
                     }
-                    while (response == "") {
-                        continue
-                    }
+                    while (response == "") { continue }
+                    token = sPref!!.getString("token", "").toString()
                     if (response == "Exception") {
                         findNavController().navigate(AuthFragmentDirections.actionAuthFragmentSelf())
                         Toast.makeText(activity?.applicationContext, "Неправильный логин или пароль, повторите вход", Toast.LENGTH_LONG).show()
                     } else {
-                        if (sPref!!.getInt("start", 1) == 1) {
+                        response = ""
+                        GlobalScope.launch(Dispatchers.IO) {
+                            response = get_reset()
+                        }
+                        while (response == "") { continue }
+                        if (JSONObject(response).getString("defaultpassword") == "True") {
                             findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToGraphNewLogin())
                         } else {
                             findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToBottomNavFragment2())
@@ -61,7 +66,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
         }
     }
 
-    private fun run(login: String, password: String): String {
+    private fun get_auth(login: String, password: String): String {
         val request = Request.Builder()
             .url("https://24b6-178-76-226-214.eu.ngrok.io/water/login/?username=$login&password=$password")
             .get()
@@ -72,10 +77,30 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 return "Exception"
             }
             val result = response.body!!.string()
-            sPref = activity?.getSharedPreferences("MyPref", MODE_PRIVATE)
+            Log.d("JSON", result)
+                sPref = activity?.getSharedPreferences("MyPref", MODE_PRIVATE)
             val ed: SharedPreferences.Editor = sPref!!.edit()
-            ed.putString("token", JSONObject(result).getString("token"))
-            ed.apply()
+            ed.putString("token", JSONObject(result).getString("token")).apply()
+            ed.putString("fullname", JSONObject(result).getString("fullname")).apply()
+            ed.putString("place", JSONObject(result).getString("place")).apply()
+            ed.putString("number_phone", JSONObject(result).getString("number_phone")).apply()
+            return result
+        }
+    }
+
+    private fun get_reset(): String {
+        val request = Request.Builder()
+            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/checkdefaultpassword/")
+            .get()
+            .addHeader("Authorization", "Token $token")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                return "Exception"
+            }
+            val result = response.body!!.string()
+            Log.d("JSON", result)
             return result
         }
     }
