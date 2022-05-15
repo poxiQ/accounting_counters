@@ -19,5 +19,13 @@
         android:id="@+id/settingsFragment"
         android:name="glebova.rsue.countwater.ui.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_main_graph2"
+            app:destination="@id/main_graph" />
+    </fragment>
+    <include app:graph="@navigation/graph_main" />
 </navigation>

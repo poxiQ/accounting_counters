@@ -33,10 +33,7 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val data = ArrayList<String>()
-        data.add("Сантехник")
-        data.add("Электрик")
-        data.add("Муж на час")
+        val data = arrayOf<String>("Сантехник", "Электрик", "Муж на час")
         val convert_from_spinner: Spinner = binding.spinner
         convert_from_spinner.adapter =
             activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, data) }
@@ -56,7 +53,9 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
             }
         }
 
-
+        binding.arrow.setOnClickListener {
+            findNavController().navigate(RequestFragmentDirections.actionRequestFragmentToMasterFragment())
+        }
         binding.buttonSend.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
                 run()

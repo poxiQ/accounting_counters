@@ -1,10 +1,9 @@
 package glebova.rsue.countwater
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import glebova.rsue.countwater.databinding.ActivityMainBinding
-import glebova.rsue.countwater.databinding.FragmentSplashBinding
 
 class MainActivity : AppCompatActivity() {
 

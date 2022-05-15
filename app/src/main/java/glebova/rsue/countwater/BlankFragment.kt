@@ -12,11 +12,14 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentBlankBinding
 import glebova.rsue.countwater.databinding.FragmentNavContainerBinding
 import glebova.rsue.countwater.dialogs.ChoosePhotoDialog
 import glebova.rsue.countwater.extensions.getFileName
+import glebova.rsue.countwater.ui.SettingsFragmentDirections
+import glebova.rsue.countwater.ui.master.response
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.default
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -74,6 +77,13 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
     }
 
     private fun setupListeners() {
+        binding.arrow.setOnClickListener {
+            findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
+        }
+        binding.buttonSend.setOnClickListener{
+            send()
+            findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
+        }
         binding.buttonSkan.setOnClickListener {
             ChoosePhotoDialog().let {
                 it.callback = object : ChoosePhotoDialog.ChoosePhotoDialogCallback {
@@ -121,16 +131,21 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
         val f = File(file.absolutePath)
         encodedString = Base64.getEncoder().encodeToString(f.readBytes())
         GlobalScope.launch(Dispatchers.IO) {
-            run()
+            response = run()
+            while (response == "") {
+                continue
+            }
+            binding.editTextNumber.setText(response)
         }
     }
 
-    private fun run() {
+    private fun run(): String {
         val formBody = FormBody.Builder()
             .add("search", encodedString)
             .build()
         val request = Request.Builder()
-            .url("http://192.168.43.35:8080/water/sendphoto")
+//            .url("http://192.168.43.35:8080/water/sendphoto")
+            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/sendphoto")
             .post(formBody)
             .build()
 
@@ -139,7 +154,22 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             val result = response.body!!.string()
             Log.d("JSON", result)
             Log.d("JSON", JSONObject(result).getString("555"))
-            binding.editTextNumber.setText(JSONObject(result).getString("555"))
+            return JSONObject(result).getString("555")
+        }
+    }
+    private fun send() {
+        val formBody = FormBody.Builder()
+            .add("count", binding.numberView.text.toString())
+            .add("description", binding.editTextNumber.text.toString())
+            .build()
+        val request = Request.Builder()
+//            .url("http://192.168.43.35:8080/water/sendphoto")
+            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/sendphoto")
+            .post(formBody)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
         }
     }
 

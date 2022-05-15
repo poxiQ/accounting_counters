@@ -1,5 +1,7 @@
 package glebova.rsue.countwater.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,7 +13,9 @@ import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentProfileBinding
 import glebova.rsue.countwater.databinding.FragmentSettingsBinding
+import glebova.rsue.countwater.ui.SettingsFragmentDirections.Companion.actionSettingsFragmentToProfileFragment
 import glebova.rsue.countwater.ui.pofile.ProfileFragmentDirections
+import glebova.rsue.countwater.ui.splash.sPref
 import glebova.rsue.countwater.ui.splash.token
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -37,32 +41,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.logout.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                logout()
-            }
+            sPref = activity?.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+            val ed: SharedPreferences.Editor = sPref!!.edit()
+            ed.putString("token", "")
+            ed.apply()
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainGraph2())
         }
         binding.arrow.setOnClickListener {
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragment2ToProfileFragment2())
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
         }
         binding.buttonSend.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
                 send()
             }
-        }
-    }
-    private fun logout() {
-        val formBody = FormBody.Builder()
-            .add("token", token)
-            .build()
-        val request = Request.Builder()
-            .url("http://192.168.43.35:8080/water/logout/")
-            .addHeader("Authorization", "Token $token")
-            .delete(formBody)
-            .build()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragment2ToAuthFragment2())
         }
     }
     private fun send() {
@@ -79,7 +70,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragment2ToProfileFragment2())
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
         }
     }
 

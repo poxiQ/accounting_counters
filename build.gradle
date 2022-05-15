@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = '1.0.0'
     repositories {
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -15,7 +16,6 @@ plugins {
     id 'com.android.library' version '7.1.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
 }
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

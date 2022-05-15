@@ -30,5 +30,8 @@
     <string name="address">введите новый адресс</string>
     <string name="name">введите новое имя</string>
     <string name="telephone">введите новый телефон</string>
+    <string name="new_login">При первом запуске вы можете сменить пароль на более надежный или же оставить ранее используемый</string>
+    <string name="newlogin">Новый логин</string>
+    <string name="newpassword">Новый пароль</string>
 
 </resources>

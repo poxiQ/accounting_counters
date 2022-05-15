@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+var response = ""
 
 @DelicateCoroutinesApi
 class MasterFragment : BaseFragment<FragmentMasterBinding>() {
@@ -30,13 +31,13 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
     private lateinit var adapter: MasterAdapter
     private val lists: MutableList<MasterModel> = ArrayList()
     private val client = OkHttpClient()
-    var a = ""
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (lists.count() == 0) {
             GlobalScope.launch(Dispatchers.IO) {
-                a = run()
+                response = run()
             }
             initRecyclerView()
         }
@@ -48,7 +49,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
     private fun buildDisplayData(response: String) {
         val hell = JSONObject(response).getJSONArray("hell")
 
-        for (i in 0..(hell.length() - 1)) {
+        for (i in 0 until hell.length()) {
             when {
                 hell.getJSONObject(i).getString("service") == "1" -> {
                     lists.add(
@@ -97,8 +98,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
     }
 
     private fun initRecyclerView() {
-        Log.d("------init---------", lists.toString())
-        while (a == ""){
+        while (response == "") {
             continue
         }
         MasterAdapter(lists).let {

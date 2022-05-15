@@ -14,10 +14,17 @@
         <action
             android:id="@+id/action_authFragment_to_bottomNavFragment2"
             app:destination="@id/bottomNavFragment2" />
+        <action
+            android:id="@+id/action_authFragment_to_graph_new_login"
+            app:destination="@id/graph_new_login" />
+        <action
+            android:id="@+id/action_authFragment_self"
+            app:destination="@id/authFragment" />
     </fragment>
     <fragment
         android:id="@+id/bottomNavFragment2"
         android:name="glebova.rsue.countwater.ui.containers.BottomNavFragment"
         android:label="BottomNavFragment"
         tools:layout="@layout/fragment_nav_container" />
+    <include app:graph="@navigation/graph_new_login" />
 </navigation>

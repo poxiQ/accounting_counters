@@ -1,12 +1,17 @@
 package glebova.rsue.countwater.ui.splash
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import glebova.rsue.countwater.AuthFragment
+import glebova.rsue.countwater.AuthFragmentDirections
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentSplashBinding
 
-var token: String = ""
+var sPref: SharedPreferences? = null
+var token = ""
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
@@ -14,6 +19,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sPref = this.activity?.getSharedPreferences("MyPref", MODE_PRIVATE)
+        token = sPref!!.getString("token", "").toString()
         if (token == "") {
             findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToGraphAuth())
         } else {

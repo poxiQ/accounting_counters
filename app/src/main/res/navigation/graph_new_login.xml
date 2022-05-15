@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_new_login"
+    app:startDestination="@id/newLogin">
+
+    <fragment
+        android:id="@+id/newLogin"
+        android:name="glebova.rsue.countwater.NewLogin"
+        android:label="fragment_new_login"
+        tools:layout="@layout/fragment_new_login" >
+        <action
+            android:id="@+id/action_newLogin_to_bottomNavFragment3"
+            app:destination="@id/bottomNavFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/bottomNavFragment3"
+        android:name="glebova.rsue.countwater.ui.containers.BottomNavFragment"
+        android:label="BottomNavFragment" />
+</navigation>

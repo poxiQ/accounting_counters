@@ -19,5 +19,9 @@
         android:id="@+id/blankFragment"
         android:name="glebova.rsue.countwater.BlankFragment"
         android:label="BlankFragment"
-        tools:layout="@layout/fragment_blank" />
+        tools:layout="@layout/fragment_blank" >
+        <action
+            android:id="@+id/action_blankFragment_to_countFragment"
+            app:destination="@id/countFragment" />
+    </fragment>
 </navigation>
