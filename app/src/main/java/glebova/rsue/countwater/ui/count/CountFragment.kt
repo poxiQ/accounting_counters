@@ -1,10 +1,10 @@
 package glebova.rsue.countwater.ui.count
 
 import android.os.Bundle
-import android.service.autofill.Validators.or
 import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import glebova.rsue.countwater.R
 import glebova.rsue.countwater.adapters.CountAdapter
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentCountBinding
@@ -67,7 +67,7 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
     private fun get(): String {
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/counters")
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/counters/")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/counters/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
@@ -86,17 +86,22 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
         while (response == "") {
             continue
         }
-        CountAdapter(counts_list_hot) { onButtonCLicked() }.let {
+        CountAdapter(counts_list_hot) { onButtonCLicked(it) }.let {
             binding.countsRecyclerHot.adapter = it
             adapter = it
         }
-        CountAdapter(counts_list_cold) { onButtonCLicked() }.let {
+        CountAdapter(counts_list_cold) { onButtonCLicked(it) }.let {
             adapter = it
             binding.countsRecyclerCold.adapter = it
         }
         response = ""
     }
 
-    private fun onButtonCLicked() =
-        findNavController().navigate(CountFragmentDirections.actionCountFragmentToBlankFragment())
+    private fun onButtonCLicked(count: String) {
+        val bundle = Bundle()
+        with(bundle) {
+            putString("count", count)
+        }
+        findNavController().navigate(R.id.action_countFragment_to_blankFragment, bundle)
+    }
 }

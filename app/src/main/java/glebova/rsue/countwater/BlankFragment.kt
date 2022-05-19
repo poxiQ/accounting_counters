@@ -73,7 +73,7 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.numberView.text = arguments?.getString("count")!!
         setupListeners()
     }
 
@@ -146,7 +146,7 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .build()
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/sendphoto")
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/sendphoto")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/sendphoto")
             .post(formBody)
             .build()
 
@@ -165,7 +165,7 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .build()
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/sendphoto")
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/sendphoto")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/sendphoto")
             .post(formBody)
             .build()
 

@@ -9,9 +9,11 @@ import glebova.rsue.countwater.AuthFragment
 import glebova.rsue.countwater.AuthFragmentDirections
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentSplashBinding
+import org.json.JSONObject
 
 var sPref: SharedPreferences? = null
 var token = ""
+
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 

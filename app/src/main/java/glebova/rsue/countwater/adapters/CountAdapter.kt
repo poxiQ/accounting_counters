@@ -6,12 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import glebova.rsue.countwater.databinding.NumberItemBinding
 import glebova.rsue.countwater.models.CountModel
 
-class CountAdapter(var counters: List<CountModel>, private val callback: CountAdapterCallBack) :
+class CountAdapter(var counters: List<CountModel>, private var callback: (String) -> Unit) :
     RecyclerView.Adapter<CountAdapter.CountViewHolder>() {
-
-    fun interface CountAdapterCallBack {
-        fun onClick()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountViewHolder = CountViewHolder(
         NumberItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,7 +23,7 @@ class CountAdapter(var counters: List<CountModel>, private val callback: CountAd
         fun bind() {
             binding.number.text = counters[bindingAdapterPosition].title
             binding.buttonAdd.setOnClickListener {
-                callback.onClick()
+                callback.invoke(binding.number.text as String)
             }
         }
     }

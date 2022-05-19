@@ -58,7 +58,7 @@ class NewLogin : BaseFragment<FragmentNewLoginBinding>() {
     private fun post(password: String): String {
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/login/?username=$login&password=$password"  )
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/resetpassword/?newpassword=$password")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/resetpassword/?newpassword=$password")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()

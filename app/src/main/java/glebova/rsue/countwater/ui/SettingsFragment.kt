@@ -1,7 +1,9 @@
 package glebova.rsue.countwater.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import glebova.rsue.countwater.MainActivity
 import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentProfileBinding
@@ -34,6 +37,9 @@ import java.util.*
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private val client = OkHttpClient()
+    private val contextActivity: MainActivity by lazy(LazyThreadSafetyMode.NONE) {
+        (activity as MainActivity)
+    }
 
     override fun initializeBinding() = FragmentSettingsBinding.inflate(layoutInflater)
 
@@ -43,9 +49,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.logout.setOnClickListener {
             sPref = activity?.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val ed: SharedPreferences.Editor = sPref!!.edit()
-            ed.putString("token", "")
-            ed.apply()
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainGraph2())
+            ed.putString("token", "").apply()
+            val intent = Intent(contextActivity, T::class.java)
+            contextActivity.startActivity(intent)
+            contextActivity.finish()
+//            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainGraph())
         }
         binding.arrow.setOnClickListener {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())

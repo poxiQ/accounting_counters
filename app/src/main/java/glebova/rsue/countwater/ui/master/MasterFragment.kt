@@ -86,7 +86,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
     private fun get(): String {
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/service/")
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/service/")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/service/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()

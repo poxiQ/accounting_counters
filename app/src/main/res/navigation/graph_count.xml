@@ -20,6 +20,9 @@
         android:name="glebova.rsue.countwater.BlankFragment"
         android:label="BlankFragment"
         tools:layout="@layout/fragment_blank" >
+        <argument
+            android:name="count"
+            app:argType="string" />
         <action
             android:id="@+id/action_blankFragment_to_countFragment"
             app:destination="@id/countFragment" />

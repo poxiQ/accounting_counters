@@ -73,7 +73,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     private fun get_auth(login: String, password: String): String {
         val request = Request.Builder()
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/login/?username=$login&password=$password")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/login/?username=$login&password=$password")
             .get()
             .build()
 
@@ -95,7 +95,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     private fun get_reset(): String {
         val request = Request.Builder()
-            .url("https://24b6-178-76-226-214.eu.ngrok.io/water/checkdefaultpassword/")
+            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/checkdefaultpassword/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
