@@ -12,6 +12,7 @@ import glebova.rsue.countwater.models.CountModel
 import glebova.rsue.countwater.ui.master.response
 import glebova.rsue.countwater.ui.splash.sPref
 import glebova.rsue.countwater.ui.splash.token
+import glebova.rsue.countwater.ui.splash.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,6 +34,7 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        response = ""
         binding.name = sPref!!.getString("fullname", "").toString()
         if (counts_list_hot.count() == 0) {
             GlobalScope.launch(Dispatchers.IO) {
@@ -67,7 +69,7 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
     private fun get(): String {
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/counters")
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/counters/")
+            .url("$url/water/counters/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
@@ -83,9 +85,7 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
     }
 
     private fun initRecyclerView() {
-        while (response == "") {
-            continue
-        }
+        while (response == "") { continue }
         CountAdapter(counts_list_hot) { onButtonCLicked(it) }.let {
             binding.countsRecyclerHot.adapter = it
             adapter = it

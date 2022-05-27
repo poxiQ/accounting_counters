@@ -35,5 +35,12 @@
     <string name="newpassword">Новый пароль</string>
     <string name="tel">Телефон:</string>
     <string name="place">Адрес:</string>
+    <string name="month">За месяц</string>
+    <string name="three_month">За 3 месяца</string>
+    <string name="year">За год</string>
+    <string name="master1">Сантехник</string>
+    <string name="master2">Электрик</string>
+    <string name="master3">Муж на час</string>
+
 
 </resources>

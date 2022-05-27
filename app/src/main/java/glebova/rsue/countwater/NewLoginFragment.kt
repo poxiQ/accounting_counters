@@ -16,6 +16,7 @@ import glebova.rsue.countwater.ui.master.response
 import glebova.rsue.countwater.ui.splash.SplashFragmentDirections
 import glebova.rsue.countwater.ui.splash.sPref
 import glebova.rsue.countwater.ui.splash.token
+import glebova.rsue.countwater.ui.splash.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -58,7 +59,7 @@ class NewLogin : BaseFragment<FragmentNewLoginBinding>() {
     private fun post(password: String): String {
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/login/?username=$login&password=$password"  )
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/resetpassword/?newpassword=$password")
+            .url("$url/water/resetpassword/?newpassword=$password")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()

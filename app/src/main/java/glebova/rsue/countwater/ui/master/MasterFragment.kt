@@ -9,6 +9,7 @@ import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentMasterBinding
 import glebova.rsue.countwater.models.MasterModel
 import glebova.rsue.countwater.ui.splash.token
+import glebova.rsue.countwater.ui.splash.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -32,12 +33,13 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (lists.count() == 0) {
+        response = ""
+        if (lists.isEmpty()) {
             GlobalScope.launch(Dispatchers.IO) {
                 response = get()
             }
             initRecyclerView()
-        }else {
+        } else {
             lists.clear()
             GlobalScope.launch(Dispatchers.IO) {
                 response = get()
@@ -80,13 +82,12 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
                 }
             }
         }
-        Log.d("-------------------", lists.toString())
     }
 
     private fun get(): String {
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/service/")
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/service/")
+            .url("$url/water/service/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
@@ -109,6 +110,5 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
             binding.masterRecycler.adapter = it
             adapter = it
         }
-        response = ""
     }
 }

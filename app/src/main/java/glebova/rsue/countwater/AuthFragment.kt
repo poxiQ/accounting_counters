@@ -13,6 +13,7 @@ import glebova.rsue.countwater.databinding.FragmentAuthBinding
 import glebova.rsue.countwater.ui.master.response
 import glebova.rsue.countwater.ui.splash.sPref
 import glebova.rsue.countwater.ui.splash.token
+import glebova.rsue.countwater.ui.splash.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -73,7 +74,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     private fun get_auth(login: String, password: String): String {
         val request = Request.Builder()
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/login/?username=$login&password=$password")
+            .url("$url/water/login/?username=$login&password=$password")
             .get()
             .build()
 
@@ -83,7 +84,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             }
             val result = response.body!!.string()
             Log.d("JSON", result)
-                sPref = activity?.getSharedPreferences("MyPref", MODE_PRIVATE)
+            sPref = activity?.getSharedPreferences("MyPref", MODE_PRIVATE)
             val ed: SharedPreferences.Editor = sPref!!.edit()
             ed.putString("token", JSONObject(result).getString("token")).apply()
             ed.putString("fullname", JSONObject(result).getString("fullname")).apply()
@@ -95,7 +96,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     private fun get_reset(): String {
         val request = Request.Builder()
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/checkdefaultpassword/")
+            .url("$url/water/checkdefaultpassword/")
             .get()
             .addHeader("Authorization", "Token $token")
             .build()

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/purple_200</item>
+        <item name="colorControlActivated">@color/purple_500</item>
+    </style>
+</resources>

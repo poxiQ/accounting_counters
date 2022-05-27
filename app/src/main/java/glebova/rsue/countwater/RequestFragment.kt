@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentRequestBinding
 import glebova.rsue.countwater.ui.splash.token
+import glebova.rsue.countwater.ui.splash.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,23 +35,12 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val data = arrayOf<String>("Сантехник", "Электрик", "Муж на час")
-        val convert_from_spinner: Spinner = binding.spinner
-        convert_from_spinner.adapter =
-            activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, data) }
-
-        convert_from_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val num = when (convert_from_spinner.selectedItem.toString()) {
-                    "Сантехник" -> service = "1"
-                    "Электрик" -> service = "2"
-                    "Муж на час" -> service = "3"
-                    else -> service = "1"
-                }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+        val radioGroup: RadioGroup = binding.radioGroup
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.master1 -> service= "1"
+                R.id.master2 -> service= "2"
+                R.id.master3 -> service= "3"
             }
         }
 
@@ -73,7 +64,7 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
             .build()
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/service/")
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/service/")
+            .url("$url/water/service/")
             .post(formBody)
             .addHeader("Authorization", "Token $token")
             .build()

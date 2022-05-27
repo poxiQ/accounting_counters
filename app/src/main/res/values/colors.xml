@@ -14,4 +14,6 @@
     <color name="red">#FB5170</color>
     <color name="lavand">#C0B8F7</color>
     <color name="pink">#FFB5B5</color>
+    <color name="cold">#5A68FF</color>
+    <color name="hot">#FF5E5E</color>
 </resources>

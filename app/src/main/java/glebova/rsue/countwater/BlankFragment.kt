@@ -20,6 +20,8 @@ import glebova.rsue.countwater.dialogs.ChoosePhotoDialog
 import glebova.rsue.countwater.extensions.getFileName
 import glebova.rsue.countwater.ui.SettingsFragmentDirections
 import glebova.rsue.countwater.ui.master.response
+import glebova.rsue.countwater.ui.splash.token
+import glebova.rsue.countwater.ui.splash.url
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.default
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -82,7 +84,13 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
         }
         binding.buttonSend.setOnClickListener{
-            send()
+            GlobalScope.launch(Dispatchers.IO) {
+                response = send()
+            }
+            while (response == "") {
+                continue
+            }
+            response = ""
             findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
         }
         binding.buttonSkan.setOnClickListener {
@@ -146,7 +154,8 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .build()
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/sendphoto")
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/sendphoto")
+            .url(url + "/water/sendphoto")
+            .addHeader("Authorization", "Token $token")
             .post(formBody)
             .build()
 
@@ -158,19 +167,24 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             return JSONObject(result).getString("555")
         }
     }
-    private fun send() {
+    private fun send(): String {
         val formBody = FormBody.Builder()
-            .add("count", binding.numberView.text.toString())
-            .add("description", binding.editTextNumber.text.toString())
+            .add("id_counter", binding.numberView.text.toString())
+            .add("value", binding.editTextNumber.text.toString())
             .build()
         val request = Request.Builder()
 //            .url("http://192.168.43.35:8080/water/sendphoto")
-            .url("https://6c72-178-76-226-214.eu.ngrok.io/water/sendphoto")
+            .url(url + "/water/meterdata/" + binding.numberView.text.toString())
+            .addHeader("Authorization", "Token $token")
             .post(formBody)
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            if (!response.isSuccessful) {
+                return "Exception"
+            }
+            val result = response.body!!.string()
+            return result
         }
     }
 

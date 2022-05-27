@@ -37,10 +37,6 @@ import java.util.*
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private val client = OkHttpClient()
-    private val contextActivity: MainActivity by lazy(LazyThreadSafetyMode.NONE) {
-        (activity as MainActivity)
-    }
-
     override fun initializeBinding() = FragmentSettingsBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,10 +46,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             sPref = activity?.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val ed: SharedPreferences.Editor = sPref!!.edit()
             ed.putString("token", "").apply()
-            val intent = Intent(contextActivity, T::class.java)
-            contextActivity.startActivity(intent)
-            contextActivity.finish()
-//            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainGraph())
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainGraph())
+
         }
         binding.arrow.setOnClickListener {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
