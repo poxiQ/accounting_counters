@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentAuthBinding
@@ -64,7 +65,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                         if (JSONObject(response).getString("defaultpassword") == "True") {
                             findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToGraphNewLogin())
                         } else {
-                            findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToBottomNavFragment2())
+                            NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java).setGraph(R.navigation.graph_main).setDestination(R.id.bottomNavFragment).createPendingIntent().send()
                         }
                     }
                 }

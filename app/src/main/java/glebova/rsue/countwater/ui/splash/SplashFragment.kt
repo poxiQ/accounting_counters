@@ -13,7 +13,7 @@ import org.json.JSONObject
 
 var sPref: SharedPreferences? = null
 var token = ""
-var url = "http://192.168.43.35:8000"
+var url = "https://cac0-178-76-226-214.eu.ngrok.io"
 
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {

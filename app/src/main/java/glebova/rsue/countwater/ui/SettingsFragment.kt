@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navDeepLink
 import glebova.rsue.countwater.MainActivity
 import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
@@ -46,7 +48,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             sPref = activity?.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val ed: SharedPreferences.Editor = sPref!!.edit()
             ed.putString("token", "").apply()
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainGraph())
+            NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java).setGraph(R.navigation.graph_main).setDestination(R.id.authFragment).createPendingIntent().send()
 
         }
         binding.arrow.setOnClickListener {
