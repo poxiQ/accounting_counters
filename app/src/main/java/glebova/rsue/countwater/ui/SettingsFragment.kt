@@ -1,27 +1,15 @@
 package glebova.rsue.countwater.ui
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navDeepLink
 import glebova.rsue.countwater.MainActivity
 import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
-import glebova.rsue.countwater.databinding.FragmentProfileBinding
 import glebova.rsue.countwater.databinding.FragmentSettingsBinding
-import glebova.rsue.countwater.ui.SettingsFragmentDirections.Companion.actionSettingsFragmentToProfileFragment
-import glebova.rsue.countwater.ui.pofile.ProfileFragmentDirections
-import glebova.rsue.countwater.ui.splash.sPref
-import glebova.rsue.countwater.ui.splash.token
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,10 +17,7 @@ import kotlinx.coroutines.launch
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.json.JSONObject
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 @DelicateCoroutinesApi
@@ -48,8 +33,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             sPref = activity?.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val ed: SharedPreferences.Editor = sPref!!.edit()
             ed.putString("token", "").apply()
-            NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java).setGraph(R.navigation.graph_main).setDestination(R.id.authFragment).createPendingIntent().send()
-
+            NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java)
+                .setGraph(R.navigation.graph_main).setDestination(R.id.authFragment).createPendingIntent().send()
         }
         binding.arrow.setOnClickListener {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
@@ -60,6 +45,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             }
         }
     }
+
     private fun send() {
         val formBody = FormBody.Builder()
             .add("username", binding.textInputFio.text.toString())

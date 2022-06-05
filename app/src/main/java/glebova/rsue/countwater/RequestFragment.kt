@@ -3,15 +3,12 @@ package glebova.rsue.countwater
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.RadioGroup
-import android.widget.Spinner
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentRequestBinding
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -63,7 +60,6 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
             .add("DateTime", SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date()))
             .build()
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/service/")
             .url("$url/water/service/")
             .post(formBody)
             .addHeader("Authorization", "Token $token")

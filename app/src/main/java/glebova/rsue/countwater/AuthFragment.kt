@@ -2,7 +2,6 @@ package glebova.rsue.countwater
 
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,10 +10,10 @@ import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentAuthBinding
-import glebova.rsue.countwater.ui.master.response
-import glebova.rsue.countwater.ui.splash.sPref
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.sPref
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

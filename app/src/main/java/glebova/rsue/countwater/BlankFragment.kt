@@ -1,27 +1,21 @@
 package glebova.rsue.countwater
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentBlankBinding
-import glebova.rsue.countwater.databinding.FragmentNavContainerBinding
 import glebova.rsue.countwater.dialogs.ChoosePhotoDialog
 import glebova.rsue.countwater.extensions.getFileName
-import glebova.rsue.countwater.ui.SettingsFragmentDirections
-import glebova.rsue.countwater.ui.master.response
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.default
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -153,7 +147,6 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .add("search", encodedString)
             .build()
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/sendphoto")
             .url(url + "/water/sendphoto")
             .addHeader("Authorization", "Token $token")
             .post(formBody)
@@ -173,7 +166,6 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .add("value", binding.editTextNumber.text.toString())
             .build()
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/sendphoto")
             .url(url + "/water/meterdata/" + binding.numberView.text.toString())
             .addHeader("Authorization", "Token $token")
             .post(formBody)

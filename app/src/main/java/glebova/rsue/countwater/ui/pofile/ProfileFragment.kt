@@ -5,7 +5,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentProfileBinding
-import glebova.rsue.countwater.ui.splash.sPref
+import glebova.rsue.countwater.ui.sPref
 
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {

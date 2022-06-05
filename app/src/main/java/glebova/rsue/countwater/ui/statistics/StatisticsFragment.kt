@@ -1,16 +1,21 @@
 package glebova.rsue.countwater.ui.statistics
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.github.mikephil.charting.data.*
 import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentStatisticsBinding
-import glebova.rsue.countwater.ui.master.response
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.models.CountModel
+import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,38 +33,85 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
 
     override fun initializeBinding() = FragmentStatisticsBinding.inflate(layoutInflater)
 
+    @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val radioGroup: RadioGroup = binding.radioGroup
-        send("1")
+        sendPieChart("1")
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.month -> send("1")
-                R.id.three_month -> send("6")
-                R.id.year -> send("12")
+                R.id.month -> sendPieChart("1")
+                R.id.three_month -> sendPieChart("6")
+                R.id.year -> sendPieChart("12")
             }
         }
         response = ""
         GlobalScope.launch(Dispatchers.IO) { response = getBarChartValues() }
-        while (response == "") {
-            continue
-        }
+        while (response == "") { continue }
         setBarChartValues()
+
+        response = ""
+        GlobalScope.launch(Dispatchers.IO) { response = getCounters() }
+        while (response == "") { continue }
+        val counts = JSONObject(response).getJSONArray("counters")
+        val radioGroup2 = binding.radioGroup2
+        val counts_list: MutableList<CountModel> = ArrayList()
+        for (i in 0 until counts.length()) {
+            val radioButton1 = RadioButton(requireContext())
+            radioButton1.layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            radioButton1.text = counts.getJSONObject(i).getString("id_counter")
+            radioButton1.id = i
+            radioButton1.setTextColor(resources.getColor(R.color.black))
+            if (radioButton1.id == 0) radioButton1.setChecked(true)
+            radioGroup2.addView(radioButton1)
+            counts_list.add(CountModel(radioButton1.id, radioButton1.text as String))
+        }
+        sendLineChartData(counts_list[0].title)
+        radioGroup2.setOnCheckedChangeListener { group, checkedId ->
+            for (i in counts_list){
+                when (checkedId) {
+                    i.id -> sendLineChartData(i.title)
+                }
+            }
+        }
+    }
+
+    private fun sendLineChartData(str: String) {
+        response = ""
+        GlobalScope.launch(Dispatchers.IO) { response = getLineChartData(str) }
+        while (response == "") { continue }
         setLineChartData()
     }
 
-    private fun send(str: String){
+    private fun sendPieChart(str: String) {
         response = ""
         GlobalScope.launch(Dispatchers.IO) { response = getPieChart(str) }
         while (response == "") { continue }
         setPieChart()
     }
+    private fun getCounters(): String {
+        val request = Request.Builder()
+            .url("$url/water/counters/")
+            .get()
+            .addHeader("Authorization", "Token $token")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            val result = response.body!!.string()
+            Log.d("JSON_______", result)
+            return result
+        }
+    }
 
     private fun setPieChart() {
         val values = arrayOf<String>("Холодная", "Горячая")
         val piechartentry = ArrayList<Entry>()
-        val piechart = binding.piechart
+        val piechart = binding.pieChart
         piechartentry.clear()
         piechart.invalidate()
         piechart.clear()
@@ -100,20 +152,11 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         )
         val result = JSONObject(response).getJSONObject("result")
         val barentries = ArrayList<BarEntry>()
-
-        barentries.add(BarEntry(result.getString("Январь").toFloat(), 0))
-        barentries.add(BarEntry(result.getString("Февраль").toFloat(), 1))
-        barentries.add(BarEntry(result.getString("Март").toFloat(), 2))
-        barentries.add(BarEntry(result.getString("Апрель").toFloat(), 3))
-        barentries.add(BarEntry(result.getString("Май").toFloat(), 4))
-        barentries.add(BarEntry(result.getString("Июнь").toFloat(), 5))
-        barentries.add(BarEntry(result.getString("Июль").toFloat(), 6))
-        barentries.add(BarEntry(result.getString("Август").toFloat(), 7))
-        barentries.add(BarEntry(result.getString("Сентябрь").toFloat(), 8))
-        barentries.add(BarEntry(result.getString("Октябрь").toFloat(), 9))
-        barentries.add(BarEntry(result.getString("Ноябрь").toFloat(), 10))
-        barentries.add(BarEntry(result.getString("Декабрь").toFloat(), 11))
-
+        var count = -1
+        for (i in result.keys()){
+            count+=1
+            barentries.add(BarEntry(result.getString(i).toFloat(), count))
+        }
         val bardataset = BarDataSet(barentries, "Общее потребление воды")
         bardataset.color = resources.getColor(R.color.lavand)
         val data = BarData(values, bardataset)
@@ -140,13 +183,14 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
             "Ноябрь",
             "Декабрь"
         )
-
-        val lineentry = ArrayList<Entry>();
-        lineentry.add(Entry(20f, 0))
-        lineentry.add(Entry(50f, 1))
-        lineentry.add(Entry(60f, 2))
-        lineentry.add(Entry(30f, 3))
-        lineentry.add(Entry(10f, 4))
+        val result = JSONObject(response).getJSONObject("result")
+        Log.d("__________", result.toString())
+        val lineentry = ArrayList<Entry>()
+        var count = -1
+        for (i in result.keys()){
+            count+=1
+            lineentry.add(Entry(result.getString(i).toFloat(), count))
+        }
 
         val linedataset = LineDataSet(lineentry, "")
         linedataset.color = resources.getColor(R.color.purple_200)
@@ -161,7 +205,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
 
     private fun getPieChart(str: String): String {
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/counters")
             .url("$url/water/ciclediagrams/$str")
             .get()
             .addHeader("Authorization", "Token $token")
@@ -170,14 +213,25 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val result = response.body!!.string()
-            Log.d("JSON", result)
+            return result
+        }
+    }
+    private fun getLineChartData(str: String): String {
+        val request = Request.Builder()
+            .url("$url/water/linediagrams/$str")
+            .get()
+            .addHeader("Authorization", "Token $token")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            val result = response.body!!.string()
             return result
         }
     }
 
     private fun getBarChartValues(): String {
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/counters")
             .url("$url/water/purplediagrams")
             .get()
             .addHeader("Authorization", "Token $token")
@@ -186,7 +240,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val result = response.body!!.string()
-            Log.d("JSON", result)
             return result
         }
     }

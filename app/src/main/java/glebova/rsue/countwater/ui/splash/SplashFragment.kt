@@ -1,19 +1,13 @@
 package glebova.rsue.countwater.ui.splash
 
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import glebova.rsue.countwater.AuthFragment
-import glebova.rsue.countwater.AuthFragmentDirections
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentSplashBinding
-import org.json.JSONObject
-
-var sPref: SharedPreferences? = null
-var token = ""
-var url = "https://cac0-178-76-226-214.eu.ngrok.io"
+import glebova.rsue.countwater.ui.sPref
+import glebova.rsue.countwater.ui.token
 
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {

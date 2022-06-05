@@ -23,21 +23,21 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:theme="@style/MyRadioButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:theme="@style/MyRadioButton">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <RadioButton
                     android:id="@+id/month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:fontFamily="@font/montserrat"
                     android:paddingRight="30dp"
-                    android:checked="true"
                     android:text="@string/month"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:paddingRight="30dp"
+                    android:paddingEnd="30dp"
                     android:text="@string/three_month"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -62,9 +62,8 @@
                     android:textSize="14sp" />
             </RadioGroup>
 
-
             <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/piechart"
+                android:id="@+id/pieChart"
                 android:layout_width="match_parent"
                 android:layout_height="400dip"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +77,20 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/piechart" />
+                app:layout_constraintTop_toBottomOf="@+id/pieChart" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup2"
+                android:theme="@style/MyRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:paddingStart="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barChart"/>
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lineChart"
@@ -87,7 +99,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barChart" />
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

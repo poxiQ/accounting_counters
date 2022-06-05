@@ -9,10 +9,10 @@ import glebova.rsue.countwater.adapters.CountAdapter
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentCountBinding
 import glebova.rsue.countwater.models.CountModel
-import glebova.rsue.countwater.ui.master.response
-import glebova.rsue.countwater.ui.splash.sPref
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.sPref
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -68,7 +68,6 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
 
     private fun get(): String {
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/counters")
             .url("$url/water/counters/")
             .get()
             .addHeader("Authorization", "Token $token")
@@ -81,7 +80,6 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
             buildDisplayData(result)
             return result
         }
-
     }
 
     private fun initRecyclerView() {

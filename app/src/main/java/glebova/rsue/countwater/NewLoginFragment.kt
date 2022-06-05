@@ -3,20 +3,15 @@ package glebova.rsue.countwater
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentNewLoginBinding
-import glebova.rsue.countwater.databinding.FragmentSplashBinding
-import glebova.rsue.countwater.ui.master.response
-import glebova.rsue.countwater.ui.splash.SplashFragmentDirections
-import glebova.rsue.countwater.ui.splash.sPref
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.sPref
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -58,7 +53,6 @@ class NewLogin : BaseFragment<FragmentNewLoginBinding>() {
 
     private fun post(password: String): String {
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/login/?username=$login&password=$password"  )
             .url("$url/water/resetpassword/?newpassword=$password")
             .get()
             .addHeader("Authorization", "Token $token")

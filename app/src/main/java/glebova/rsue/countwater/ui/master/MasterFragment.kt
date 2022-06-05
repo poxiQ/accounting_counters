@@ -8,8 +8,9 @@ import glebova.rsue.countwater.adapters.MasterAdapter
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentMasterBinding
 import glebova.rsue.countwater.models.MasterModel
-import glebova.rsue.countwater.ui.splash.token
-import glebova.rsue.countwater.ui.splash.url
+import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.token
+import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,7 +20,6 @@ import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
 
-var response = ""
 
 @DelicateCoroutinesApi
 class MasterFragment : BaseFragment<FragmentMasterBinding>() {
@@ -86,7 +86,6 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
 
     private fun get(): String {
         val request = Request.Builder()
-//            .url("http://192.168.43.35:8080/water/service/")
             .url("$url/water/service/")
             .get()
             .addHeader("Authorization", "Token $token")
