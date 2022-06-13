@@ -1,7 +1,6 @@
 package glebova.rsue.countwater
 
-import android.content.Context
-import android.content.SharedPreferences
+import SharedPreferencesSingleton
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentNewLoginBinding
 import glebova.rsue.countwater.ui.response
-import glebova.rsue.countwater.ui.sPref
 import glebova.rsue.countwater.ui.token
 import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -44,7 +42,7 @@ class NewLogin : BaseFragment<FragmentNewLoginBinding>() {
                         continue
                     }
                     Toast.makeText(activity?.applicationContext, "Пароль успешно изменен", Toast.LENGTH_LONG).show()
-                    token = sPref!!.getString("token", "").toString()
+                    token = SharedPreferencesSingleton.read("token", "").toString()
                     findNavController().navigate(NewLoginDirections.actionNewLoginToBottomNavFragment3())
                 }
             }
@@ -63,9 +61,8 @@ class NewLogin : BaseFragment<FragmentNewLoginBinding>() {
                 throw IOException("Unexpected code $response")
             }
             val result = response.body!!.string()
-            sPref = activity?.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
-            val ed: SharedPreferences.Editor = sPref!!.edit()
-            ed.putString("token", JSONObject(result).getString("token")).apply()
+            SharedPreferencesSingleton.init(requireActivity())
+            SharedPreferencesSingleton.write("token", JSONObject(result).getString("token"))
             return result
         }
     }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.navigation.fragment.findNavController
@@ -77,15 +78,15 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
         binding.arrow.setOnClickListener {
             findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
         }
-        binding.buttonSend.setOnClickListener{
-            GlobalScope.launch(Dispatchers.IO) {
-                response = send()
+        binding.buttonSend.setOnClickListener {
+            if (binding.editTextNumber.text.length == 5) {
+                GlobalScope.launch(Dispatchers.IO) { response = send() }
+                while (response == "") { continue }
+                response = ""
+                findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
+            } else {
+                Toast.makeText(activity?.applicationContext, "некорректрое значение", Toast.LENGTH_LONG).show()
             }
-            while (response == "") {
-                continue
-            }
-            response = ""
-            findNavController().navigate(BlankFragmentDirections.actionBlankFragmentToCountFragment())
         }
         binding.buttonSkan.setOnClickListener {
             ChoosePhotoDialog().let {
@@ -126,7 +127,16 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             }
             Log.d("size", compressedImageFile.length().toString())
             encodedString = Base64.getEncoder().encodeToString(file.readBytes())
-            run()
+            GlobalScope.launch(Dispatchers.IO) {
+                response = run()
+                while (response == "") { continue }
+                if (response != "Exception") {
+                    with(binding) {
+                        editTextNumber.text.clear()
+                        editTextNumber.setText(response)
+                    }
+                }
+            }
         }
     }
 
@@ -135,9 +145,14 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
         encodedString = Base64.getEncoder().encodeToString(f.readBytes())
         GlobalScope.launch(Dispatchers.IO) {
             response = run()
-            while (response == "") {
-                continue
+            if (response == "Exception") {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "качество фотографии слишком низкое",
+                    Toast.LENGTH_LONG
+                ).show()
             }
+            while (response == "") { continue }
             binding.editTextNumber.setText(response)
         }
     }
@@ -153,13 +168,12 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            if (!response.isSuccessful) { return "Exception"}
             val result = response.body!!.string()
-            Log.d("JSON", result)
-            Log.d("JSON", JSONObject(result).getString("555"))
             return JSONObject(result).getString("555")
         }
     }
+
     private fun send(): String {
         val formBody = FormBody.Builder()
             .add("id_counter", binding.numberView.text.toString())
@@ -172,9 +186,7 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                return "Exception"
-            }
+            if (!response.isSuccessful) { return "Exception" }
             val result = response.body!!.string()
             return result
         }

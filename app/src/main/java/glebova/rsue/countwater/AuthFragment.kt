@@ -1,7 +1,7 @@
 package glebova.rsue.countwater
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
+
+import SharedPreferencesSingleton
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentAuthBinding
 import glebova.rsue.countwater.ui.response
-import glebova.rsue.countwater.ui.sPref
 import glebova.rsue.countwater.ui.token
 import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -37,12 +36,12 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             val password = binding.editTextTextPassword.text.toString()
             when {
                 login.trim() == "" -> {
-                    Toast.makeText(activity?.applicationContext, "заполните поле", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity?.applicationContext, "заполните все поля", Toast.LENGTH_LONG).show()
                     binding.editTextTextPersonName.setBackgroundResource(R.drawable.et_style_error)
                     binding.editTextTextPassword.setBackgroundResource(R.drawable.et_style)
                 }
                 password.trim() == "" -> {
-                    Toast.makeText(activity?.applicationContext, "заполните поле", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity?.applicationContext, "заполните все поля", Toast.LENGTH_LONG).show()
                     binding.editTextTextPassword.setBackgroundResource(R.drawable.et_style_error)
                     binding.editTextTextPersonName.setBackgroundResource(R.drawable.et_style)
                 }
@@ -51,15 +50,13 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                         response = get_auth(login, password)
                     }
                     while (response == "") { continue }
-                    token = sPref!!.getString("token", "").toString()
+                    token = SharedPreferencesSingleton.read("token", "").toString()
                     if (response == "Exception") {
                         findNavController().navigate(AuthFragmentDirections.actionAuthFragmentSelf())
-                        Toast.makeText(activity?.applicationContext, "Неправильный логин или пароль, повторите вход", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity?.applicationContext, "неправильный логин или пароль, повторите вход", Toast.LENGTH_LONG).show()
                     } else {
                         response = ""
-                        GlobalScope.launch(Dispatchers.IO) {
-                            response = get_reset()
-                        }
+                        GlobalScope.launch(Dispatchers.IO) { response = get_reset() }
                         while (response == "") { continue }
                         if (JSONObject(response).getString("defaultpassword") == "True") {
                             findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToGraphNewLogin())
@@ -79,17 +76,14 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                return "Exception"
-            }
+            if (!response.isSuccessful) { return "Exception" }
             val result = response.body!!.string()
             Log.d("JSON", result)
-            sPref = activity?.getSharedPreferences("MyPref", MODE_PRIVATE)
-            val ed: SharedPreferences.Editor = sPref!!.edit()
-            ed.putString("token", JSONObject(result).getString("token")).apply()
-            ed.putString("fullname", JSONObject(result).getString("fullname")).apply()
-            ed.putString("place", JSONObject(result).getString("place")).apply()
-            ed.putString("number_phone", JSONObject(result).getString("number_phone")).apply()
+            SharedPreferencesSingleton.init(requireActivity())
+            SharedPreferencesSingleton.write("token", JSONObject(result).getString("token"))
+            SharedPreferencesSingleton.write("fullname", JSONObject(result).getString("fullname"))
+            SharedPreferencesSingleton.write("place", JSONObject(result).getString("place"))
+            SharedPreferencesSingleton.write("number_phone", JSONObject(result).getString("number_phone"))
             return result
         }
     }

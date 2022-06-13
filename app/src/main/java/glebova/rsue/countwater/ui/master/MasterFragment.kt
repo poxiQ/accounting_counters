@@ -1,7 +1,6 @@
 package glebova.rsue.countwater.ui.master
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.adapters.MasterAdapter
@@ -35,15 +34,11 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
         super.onViewCreated(view, savedInstanceState)
         response = ""
         if (lists.isEmpty()) {
-            GlobalScope.launch(Dispatchers.IO) {
-                response = get()
-            }
+            GlobalScope.launch(Dispatchers.IO) { response = get() }
             initRecyclerView()
         } else {
             lists.clear()
-            GlobalScope.launch(Dispatchers.IO) {
-                response = get()
-            }
+            GlobalScope.launch(Dispatchers.IO) { response = get() }
             initRecyclerView()
         }
         binding.request.setOnClickListener {
@@ -94,7 +89,6 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val result = response.body!!.string()
-            Log.d("JSON", result)
             buildDisplayData(result)
             return result
         }
@@ -102,9 +96,7 @@ class MasterFragment : BaseFragment<FragmentMasterBinding>() {
     }
 
     private fun initRecyclerView() {
-        while (response == "") {
-            continue
-        }
+        while (response == "") { continue }
         MasterAdapter(lists).let {
             binding.masterRecycler.adapter = it
             adapter = it

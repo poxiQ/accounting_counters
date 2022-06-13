@@ -27,9 +27,9 @@
     <string name="password">Пароль</string>
     <string name="count">ввести показания</string>
     <string name="save">сохранить изменения</string>
-    <string name="address">Введите новый адресс</string>
-    <string name="name">Введите новое имя</string>
-    <string name="telephone">Введите новый телефон</string>
+    <string name="address">Адрес</string>
+    <string name="name">ФИО</string>
+    <string name="telephone">Телефон</string>
     <string name="new_login">При первом запуске вы можете сменить пароль на более надежный или же оставить ранее используемый</string>
     <string name="newlogin">Новый логин</string>
     <string name="newpassword">Новый пароль</string>
@@ -41,6 +41,9 @@
     <string name="master1">Сантехник</string>
     <string name="master2">Электрик</string>
     <string name="master3">Муж на час</string>
+    <string name="smart_counters">Умные счетчики</string>
+    <string name="add_count">Номер счетчика</string>
+    <string name="add_smart_count">добавить счетчик</string>
 
 
 </resources>

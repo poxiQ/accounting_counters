@@ -103,7 +103,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val result = response.body!!.string()
-            Log.d("JSON_______", result)
             return result
         }
     }
@@ -184,7 +183,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
             "Декабрь"
         )
         val result = JSONObject(response).getJSONObject("result")
-        Log.d("__________", result.toString())
         val lineentry = ArrayList<Entry>()
         var count = -1
         for (i in result.keys()){

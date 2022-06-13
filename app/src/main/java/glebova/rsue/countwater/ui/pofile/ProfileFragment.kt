@@ -1,11 +1,11 @@
 package glebova.rsue.countwater.ui.pofile
 
+import SharedPreferencesSingleton
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentProfileBinding
-import glebova.rsue.countwater.ui.sPref
 
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -14,13 +14,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fio.text = sPref!!.getString("fullname", "").toString()
-        binding.address.text = sPref!!.getString("place", "").toString()
-        binding.telephone.text = sPref!!.getString("number_phone", "").toString()
+        binding.fio.text = SharedPreferencesSingleton.read("fullname", "")
+        binding.address.text = SharedPreferencesSingleton.read("place", "")
+        binding.telephone.text = SharedPreferencesSingleton.read("number_phone", "")
         binding.settings.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
         }
-
     }
-
 }

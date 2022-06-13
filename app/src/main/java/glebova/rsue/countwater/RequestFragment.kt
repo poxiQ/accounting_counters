@@ -1,7 +1,6 @@
 package glebova.rsue.countwater
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.RadioGroup
 import androidx.navigation.fragment.findNavController
@@ -45,9 +44,7 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
             findNavController().navigate(RequestFragmentDirections.actionRequestFragmentToMasterFragment())
         }
         binding.buttonSend.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                run()
-            }
+            GlobalScope.launch(Dispatchers.IO) { run() }
             findNavController().navigate(RequestFragmentDirections.actionRequestFragmentToMasterFragment())
         }
     }
@@ -67,7 +64,6 @@ class RequestFragment : BaseFragment<FragmentRequestBinding>() {
 
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            Log.d("JSON", response.body!!.string())
         }
     }
 }
