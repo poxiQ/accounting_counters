@@ -5,23 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
     app:startDestination="@id/splashFragment">
-
     <fragment
         android:id="@+id/splashFragment"
         android:name="glebova.rsue.countwater.ui.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
-            android:id="@+id/action_splashFragment_to_graph_auth"
-            app:destination="@id/graph_auth" />
-        <action
             android:id="@+id/action_splashFragment_to_bottomNavFragment"
             app:destination="@id/bottomNavFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_graph_auth"
+            app:destination="@id/graph_auth" />
     </fragment>
-    <include app:graph="@navigation/graph_auth" />
     <fragment
         android:id="@+id/bottomNavFragment"
         android:name="glebova.rsue.countwater.ui.containers.BottomNavFragment"
         android:label="BottomNavFragment"
-        tools:layout="@layout/fragment_nav_container" />
+        tools:layout="@layout/fragment_nav_container"/>
+    <include app:graph="@navigation/graph_auth" />
 </navigation>

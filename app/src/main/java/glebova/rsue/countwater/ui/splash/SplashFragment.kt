@@ -1,11 +1,12 @@
 package glebova.rsue.countwater.ui.splash
 
+import SharedPreferencesSingleton
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentSplashBinding
-
+import glebova.rsue.countwater.ui.response
 import glebova.rsue.countwater.ui.token
 
 
@@ -20,7 +21,10 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         if (token == "") {
             findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToGraphAuth())
         } else {
-            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToBottomNavFragment())
+            if (response != "Exception") {
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToBottomNavFragment())
+                response = ""
+            }
         }
     }
 }

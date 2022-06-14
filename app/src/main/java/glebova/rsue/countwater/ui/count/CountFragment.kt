@@ -3,13 +3,16 @@ package glebova.rsue.countwater.ui.count
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import glebova.rsue.countwater.AuthFragmentDirections
 import glebova.rsue.countwater.R
 import glebova.rsue.countwater.adapters.CountAdapter
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentCountBinding
 import glebova.rsue.countwater.models.CountModel
 import glebova.rsue.countwater.ui.response
+import glebova.rsue.countwater.ui.splash.SplashFragmentDirections
 import glebova.rsue.countwater.ui.token
 import glebova.rsue.countwater.ui.url
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -37,7 +40,15 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
         binding.name = SharedPreferencesSingleton.read("fullname", "")
         if (counts_list_hot.count() == 0) {
             GlobalScope.launch(Dispatchers.IO) { response = get() }
-            initRecyclerView()
+            while (response == "") { continue }
+            Log.d("___________", response)
+            when (response) {
+                "Exception" -> {
+                    Toast.makeText(activity?.applicationContext, "проверьте подключение к сети", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(CountFragmentDirections.actionCountFragmentToSplashFragment2())
+                }
+                else -> initRecyclerView()
+            }
         } else {
             counts_list_hot.clear()
             counts_list_cold.clear()
@@ -62,23 +73,23 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
     }
 
     private fun get(): String {
-        val request = Request.Builder()
-            .url("$url/water/counters/")
-            .get()
-            .addHeader("Authorization", "Token $token")
-            .build()
+        try {
+            val request = Request.Builder()
+                .url("$url/water/counters/")
+                .get()
+                .addHeader("Authorization", "Token $token")
+                .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            val result = response.body!!.string()
-            Log.d("JSON", result)
-            buildDisplayData(result)
-            return result
-        }
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) { return "Exception" }
+                val result = response.body!!.string()
+                buildDisplayData(result)
+                return result
+            }
+        }catch (e: Exception) { return "Exception" }
     }
 
     private fun initRecyclerView() {
-        while (response == "") { continue }
         CountAdapter(counts_list_hot) { onButtonCLicked(it) }.let {
             binding.countsRecyclerHot.adapter = it
             adapter = it

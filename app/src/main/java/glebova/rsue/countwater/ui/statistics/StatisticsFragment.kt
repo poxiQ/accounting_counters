@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.*
 import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentStatisticsBinding
 import glebova.rsue.countwater.models.CountModel
+import glebova.rsue.countwater.ui.count.CountFragmentDirections
 import glebova.rsue.countwater.ui.response
 import glebova.rsue.countwater.ui.token
 import glebova.rsue.countwater.ui.url
@@ -49,50 +52,57 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         response = ""
         GlobalScope.launch(Dispatchers.IO) { response = getBarChartValues() }
         while (response == "") { continue }
-        setBarChartValues()
-
-        response = ""
-        GlobalScope.launch(Dispatchers.IO) { response = getCounters() }
-        while (response == "") { continue }
-        val counts = JSONObject(response).getJSONArray("counters")
-        val radioGroup2 = binding.radioGroup2
-        val counts_list: MutableList<CountModel> = ArrayList()
-        for (i in 0 until counts.length()) {
-            val radioButton1 = RadioButton(requireContext())
-            radioButton1.layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            radioButton1.text = counts.getJSONObject(i).getString("id_counter")
-            radioButton1.id = i
-            radioButton1.setTextColor(resources.getColor(R.color.black))
-            if (radioButton1.id == 0) radioButton1.setChecked(true)
-            radioGroup2.addView(radioButton1)
-            counts_list.add(CountModel(radioButton1.id, radioButton1.text as String))
-        }
-        sendLineChartData(counts_list[0].title)
-        radioGroup2.setOnCheckedChangeListener { group, checkedId ->
-            for (i in counts_list){
-                when (checkedId) {
-                    i.id -> sendLineChartData(i.title)
+        if (response=="Exception") {
+                Toast.makeText(activity?.applicationContext, "проверьте подключение к сети", Toast.LENGTH_LONG).show()
+                findNavController().navigate(StatisticsFragmentDirections.actionStatisticsFragmentToSplashFragment4())
+            }else{
+                setBarChartValues()
+                response = ""
+                GlobalScope.launch(Dispatchers.IO) { response = getCounters() }
+                while (response == "") {
+                    continue
+                }
+                val counts = JSONObject(response).getJSONArray("counters")
+                val radioGroup2 = binding.radioGroup2
+                val counts_list: MutableList<CountModel> = ArrayList()
+                for (i in 0 until counts.length()) {
+                    val radioButton1 = RadioButton(requireContext())
+                    radioButton1.layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    radioButton1.text = counts.getJSONObject(i).getString("id_counter")
+                    radioButton1.id = i
+                    radioButton1.setTextColor(resources.getColor(R.color.black))
+                    if (radioButton1.id == 0) radioButton1.setChecked(true)
+                    radioGroup2.addView(radioButton1)
+                    counts_list.add(CountModel(radioButton1.id, radioButton1.text as String))
+                }
+                sendLineChartData(counts_list[0].title)
+                radioGroup2.setOnCheckedChangeListener { group, checkedId ->
+                    for (i in counts_list) {
+                        when (checkedId) {
+                            i.id -> sendLineChartData(i.title)
+                        }
+                    }
                 }
             }
         }
-    }
 
     private fun sendLineChartData(str: String) {
         response = ""
         GlobalScope.launch(Dispatchers.IO) { response = getLineChartData(str) }
         while (response == "") { continue }
-        setLineChartData()
+        if (response!="Exception")  setLineChartData()
     }
 
     private fun sendPieChart(str: String) {
         response = ""
         GlobalScope.launch(Dispatchers.IO) { response = getPieChart(str) }
         while (response == "") { continue }
-        setPieChart()
+        if (response!="Exception") setPieChart()
     }
+
     private fun getCounters(): String {
         val request = Request.Builder()
             .url("$url/water/counters/")
@@ -152,8 +162,8 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         val result = JSONObject(response).getJSONObject("result")
         val barentries = ArrayList<BarEntry>()
         var count = -1
-        for (i in result.keys()){
-            count+=1
+        for (i in result.keys()) {
+            count += 1
             barentries.add(BarEntry(result.getString(i).toFloat(), count))
         }
         val bardataset = BarDataSet(barentries, "Общее потребление воды")
@@ -185,8 +195,8 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
         val result = JSONObject(response).getJSONObject("result")
         val lineentry = ArrayList<Entry>()
         var count = -1
-        for (i in result.keys()){
-            count+=1
+        for (i in result.keys()) {
+            count += 1
             lineentry.add(Entry(result.getString(i).toFloat(), count))
         }
 
@@ -202,44 +212,50 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
 
 
     private fun getPieChart(str: String): String {
-        val request = Request.Builder()
-            .url("$url/water/ciclediagrams/$str")
-            .get()
-            .addHeader("Authorization", "Token $token")
-            .build()
+        try {
+            val request = Request.Builder()
+                .url("$url/water/ciclediagrams/$str")
+                .get()
+                .addHeader("Authorization", "Token $token")
+                .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            val result = response.body!!.string()
-            return result
-        }
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                val result = response.body!!.string()
+                return result
+            }
+        } catch (e: Exception) { return "Exception" }
     }
-    private fun getLineChartData(str: String): String {
-        val request = Request.Builder()
-            .url("$url/water/linediagrams/$str")
-            .get()
-            .addHeader("Authorization", "Token $token")
-            .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            val result = response.body!!.string()
-            return result
-        }
+    private fun getLineChartData(str: String): String {
+        try {
+            val request = Request.Builder()
+                .url("$url/water/linediagrams/$str")
+                .get()
+                .addHeader("Authorization", "Token $token")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                val result = response.body!!.string()
+                return result
+            }
+        }catch (e: Exception) { return "Exception" }
     }
 
     private fun getBarChartValues(): String {
-        val request = Request.Builder()
-            .url("$url/water/purplediagrams")
-            .get()
-            .addHeader("Authorization", "Token $token")
-            .build()
+        try {
+            val request = Request.Builder()
+                .url("$url/water/purplediagrams")
+                .get()
+                .addHeader("Authorization", "Token $token")
+                .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            val result = response.body!!.string()
-            return result
-        }
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                val result = response.body!!.string()
+                return result
+            }
+        } catch (e: Exception) { return "Exception" }
     }
-
 }

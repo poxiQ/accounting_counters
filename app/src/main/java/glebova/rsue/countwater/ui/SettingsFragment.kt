@@ -3,6 +3,7 @@ package glebova.rsue.countwater.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController

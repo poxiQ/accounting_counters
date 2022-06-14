@@ -16,5 +16,13 @@
         android:id="@+id/statisticsFragment"
         android:name="glebova.rsue.countwater.ui.statistics.StatisticsFragment"
         android:label="statistics_fragment"
-        tools:layout="@layout/fragment_statistics" />
+        tools:layout="@layout/fragment_statistics" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_splashFragment4"
+            app:destination="@id/splashFragment4" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment4"
+        android:name="glebova.rsue.countwater.ui.splash.SplashFragment"
+        android:label="SplashFragment" />
 </navigation>

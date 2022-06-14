@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_countFragment_to_blankFragment"
             app:destination="@id/blankFragment" />
+        <action
+            android:id="@+id/action_countFragment_to_splashFragment2"
+            app:destination="@id/splashFragment2" />
     </fragment>
     <fragment
         android:id="@+id/blankFragment"
@@ -26,5 +29,11 @@
         <action
             android:id="@+id/action_blankFragment_to_countFragment"
             app:destination="@id/countFragment" />
+
     </fragment>
+    <fragment
+        android:id="@+id/splashFragment2"
+        android:name="glebova.rsue.countwater.ui.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash"/>
 </navigation>

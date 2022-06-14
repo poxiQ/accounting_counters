@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import java.io.IOException
 
 
 @DelicateCoroutinesApi
@@ -46,22 +47,28 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                     binding.editTextTextPersonName.setBackgroundResource(R.drawable.et_style)
                 }
                 else -> {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        response = get_auth(login, password)
-                    }
+                    response = ""
+                    GlobalScope.launch(Dispatchers.IO) { response = get_auth(login, password) }
                     while (response == "") { continue }
                     token = SharedPreferencesSingleton.read("token", "").toString()
-                    if (response == "Exception") {
-                        findNavController().navigate(AuthFragmentDirections.actionAuthFragmentSelf())
-                        Toast.makeText(activity?.applicationContext, "неправильный логин или пароль, повторите вход", Toast.LENGTH_LONG).show()
-                    } else {
-                        response = ""
-                        GlobalScope.launch(Dispatchers.IO) { response = get_reset() }
-                        while (response == "") { continue }
-                        if (JSONObject(response).getString("defaultpassword") == "True") {
-                            findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToGraphNewLogin())
-                        } else {
-                            NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java).setGraph(R.navigation.graph_main).setDestination(R.id.bottomNavFragment).createPendingIntent().send()
+                    when (response) {
+                        "Exception" -> {
+                            findNavController().navigate(AuthFragmentDirections.actionAuthFragmentSelf())
+                            Toast.makeText(activity?.applicationContext, "неправильный логин или пароль, повторите вход", Toast.LENGTH_LONG).show()
+                        }
+                        "Ex" -> {
+                            findNavController().navigate(AuthFragmentDirections.actionAuthFragmentSelf())
+                            Toast.makeText(activity?.applicationContext, "проверьте подключение к сети и повторите вход", Toast.LENGTH_LONG).show()
+                        }
+                        else -> {
+                            response = ""
+                            GlobalScope.launch(Dispatchers.IO) { response = get_reset() }
+                            while (response == "") { continue }
+                            if (JSONObject(response).getString("defaultpassword") == "True") {
+                                findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToGraphNewLogin())
+                            } else {
+                                NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java).setGraph(R.navigation.graph_main).setDestination(R.id.bottomNavFragment).createPendingIntent().send()
+                            }
                         }
                     }
                 }
@@ -70,23 +77,24 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
     }
 
     private fun get_auth(login: String, password: String): String {
-        val request = Request.Builder()
-            .url("$url/water/login/?username=$login&password=$password")
-            .get()
-            .build()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) { return "Exception" }
-            val result = response.body!!.string()
-            Log.d("JSON", result)
-            SharedPreferencesSingleton.init(requireActivity())
-            SharedPreferencesSingleton.write("token", JSONObject(result).getString("token"))
-            SharedPreferencesSingleton.write("fullname", JSONObject(result).getString("fullname"))
-            SharedPreferencesSingleton.write("place", JSONObject(result).getString("place"))
-            SharedPreferencesSingleton.write("number_phone", JSONObject(result).getString("number_phone"))
-            return result
-        }
+        try {
+            val request = Request.Builder()
+                .url("$url/water/login/?username=$login&password=$password")
+                .get()
+                .build()
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) { return "Exception" }
+                val result = response.body!!.string()
+                SharedPreferencesSingleton.init(requireActivity())
+                SharedPreferencesSingleton.write("token", JSONObject(result).getString("token"))
+                SharedPreferencesSingleton.write("fullname", JSONObject(result).getString("fullname"))
+                SharedPreferencesSingleton.write("place", JSONObject(result).getString("place"))
+                SharedPreferencesSingleton.write("number_phone", JSONObject(result).getString("number_phone"))
+                return result
+            }
+        } catch (e: Exception) { return "Ex" }
     }
+
 
     private fun get_reset(): String {
         val request = Request.Builder()
@@ -94,13 +102,10 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
-
+        Log.d("fjireofkerf", token)
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                return "Exception"
-            }
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val result = response.body!!.string()
-            Log.d("JSON", result)
             return result
         }
     }
