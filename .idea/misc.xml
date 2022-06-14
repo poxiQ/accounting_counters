@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/ic_master.xml" value="0.3015" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.281" />
+        <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/ic_statistics.xml" value="0.281" />
         <entry key="app/src/main/res/drawable/iv_style.xml" value="0.316" />
         <entry key="app/src/main/res/drawable/logo.xml" value="0.281" />
@@ -45,7 +46,8 @@
         <entry key="app/src/main/res/layout/fragment_pertanyaan.xml" value="0.3351449275362319" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_request.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.4483173076923077" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_smart_counts.xml" value="0.28177083333333336" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_statistics.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_сщгте.xml" value="0.3351449275362319" />

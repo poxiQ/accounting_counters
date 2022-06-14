@@ -1,37 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SettingsFragment">
+    tools:context=".SmartCounts">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/logout"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/ic_logout"
-            android:elevation="5dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:foreground="@drawable/ripple_add_button"
-            android:paddingHorizontal="22dp"
-            android:paddingVertical="15dp"
-            android:stateListAnimator="@null"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:translationZ="5dp"
-            app:cornerRadius="10dp"
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:theme="@style/MyRadioButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_count">
+
+            <RadioButton
+                android:id="@+id/cold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="@font/montserrat"
+                android:paddingRight="30dp"
+                android:text="@string/cold"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/hot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:paddingEnd="30dp"
+                android:text="@string/hot"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/radioGroup2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:theme="@style/MyRadioButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+            <RadioButton
+                android:id="@+id/notsmart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:paddingEnd="30dp"
+                android:checked="true"
+                android:text="@string/notsmart"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/smart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:paddingRight="30dp"
+                android:text="@string/smart"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+
+        </RadioGroup>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/arrow"
@@ -55,30 +100,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/textInputFio"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/et_style"
-            android:elevation="5dp"
-            android:ems="10"
-            android:hint="@string/name"
-            android:fontFamily="@font/montserrat"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="14dp"
-            android:stateListAnimator="@null"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:translationZ="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logout" />
-
-
-        <EditText
-            android:id="@+id/textInputAddress"
+            android:id="@+id/id_count"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -86,29 +108,7 @@
             android:elevation="5dp"
             android:ems="10"
             android:fontFamily="@font/montserrat"
-            android:hint="@string/address"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="14dp"
-            android:stateListAnimator="@null"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:translationZ="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputFio" />
-
-        <EditText
-            android:id="@+id/textInputTelephone"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/et_style"
-            android:elevation="5dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="@string/telephone"
+            android:hint="@string/id_count"
             android:inputType="number"
             android:minHeight="48dp"
             android:paddingHorizontal="20dp"
@@ -119,10 +119,11 @@
             android:translationZ="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputAddress"
-            tools:ignore="TextFields" />
+            app:layout_constraintTop_toBottomOf="@+id/arrow" />
+
+
         <EditText
-            android:id="@+id/textInputDate"
+            android:id="@+id/id_modem"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -130,7 +131,7 @@
             android:elevation="5dp"
             android:ems="10"
             android:fontFamily="@font/montserrat"
-            android:hint="@string/date"
+            android:hint="@string/id_modem"
             android:inputType="number"
             android:minHeight="48dp"
             android:paddingHorizontal="20dp"
@@ -139,34 +140,34 @@
             android:textColor="@color/black"
             android:textSize="12sp"
             android:translationZ="5dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputTelephone"
-            tools:ignore="TextFields" />
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonSend"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/id_registr"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
-            android:background="@drawable/bgsend"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/et_style"
             android:elevation="5dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:foreground="@drawable/ripple_add_button"
-            android:paddingHorizontal="22dp"
-            android:paddingVertical="15dp"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="@string/id_registr"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="14dp"
             android:stateListAnimator="@null"
-            android:text="@string/save"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"
             android:translationZ="5dp"
-            app:cornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/id_modem"
+            tools:ignore="TextFields" />
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -186,11 +187,10 @@
             android:textStyle="bold"
             android:translationZ="5dp"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonSend"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputDate" />
+            app:layout_constraintTop_toBottomOf="@+id/id_registr" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

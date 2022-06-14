@@ -1,19 +1,16 @@
 package glebova.rsue.countwater.ui
 
-import android.content.Context
-import android.content.SharedPreferences
+import SharedPreferencesSingleton
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
 import glebova.rsue.countwater.MainActivity
 import glebova.rsue.countwater.R
-import glebova.rsue.countwater.adapters.SmartCountAdapter
-import glebova.rsue.countwater.adapters.counts
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentSettingsBinding
-import glebova.rsue.countwater.models.CountModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -21,94 +18,95 @@ import kotlinx.coroutines.launch
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.IOException
+import org.json.JSONObject
 
 
 @DelicateCoroutinesApi
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private val client = OkHttpClient()
-    private lateinit var adapter: SmartCountAdapter
-    val lists: MutableList<Int> = ArrayList()
+    var api_key = ""
     override fun initializeBinding() = FragmentSettingsBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.textInputFio.setText(SharedPreferencesSingleton.read("fullname", "").toString())
-        binding.textInputAddress.setText(SharedPreferencesSingleton.read("place", "").toString())
-        binding.textInputTelephone.setText(SharedPreferencesSingleton.read("number_phone", "").toString())
+        GlobalScope.launch(Dispatchers.IO) { response = get() }
+        while (response == "") { continue }
+        when (response) {
+            "Exception" -> {
+                Toast.makeText(activity?.applicationContext, "проверьте подключение к сети", Toast.LENGTH_LONG)
+                    .show()
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSplashFragment5())
+            } else -> {
+            binding.textInputFio.setText(JSONObject(response).getString("fullname"))
+            binding.textInputAddress.setText(JSONObject(response).getString("place"))
+            binding.textInputTelephone.setText(JSONObject(response).getString("number_phone"))
+            binding.textInputDate.setText(JSONObject(response).getString("day_of_metersdata"))
+            api_key = JSONObject(response).getString("api_key")
 
-        binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                binding.scroll2.visibility = View.VISIBLE
-                binding.buttonAdd.visibility = View.VISIBLE
-                if (lists.size == 0){ lists.add(1) }
-                initRecyclerView()
-                binding.buttonAdd.setOnClickListener {
-                    lists.add(1)
-                    initRecyclerView()
+            binding.buttonAdd.setOnClickListener {
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmartCounts())
+            }
+
+            binding.logout.setOnClickListener {
+                SharedPreferencesSingleton.init(requireActivity())
+                SharedPreferencesSingleton.write("token", "")
+                NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java)
+                    .setGraph(R.navigation.graph_main).setDestination(R.id.authFragment).createPendingIntent().send()
+            }
+            binding.arrow.setOnClickListener {
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
+            }
+            binding.buttonSend.setOnClickListener {
+                if (binding.textInputTelephone.text.length == 11 && binding.textInputDate.text.length == 2){
+                    GlobalScope.launch(Dispatchers.IO) { post() }
+                }else {
+                    Toast.makeText(activity?.applicationContext, "некорректное значение", Toast.LENGTH_LONG).show()
                 }
-            }else{
-                binding.scroll2.visibility = View.INVISIBLE
-                binding.buttonAdd.visibility = View.INVISIBLE
+                }
             }
         }
 
-        binding.logout.setOnClickListener {
-            SharedPreferencesSingleton.init(requireActivity())
-            SharedPreferencesSingleton.write("token", "")
-            NavDeepLinkBuilder(requireContext()).setComponentName(MainActivity::class.java)
-                .setGraph(R.navigation.graph_main).setDestination(R.id.authFragment).createPendingIntent().send()
-        }
-        binding.arrow.setOnClickListener {
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
-        }
-        binding.buttonSend.setOnClickListener {
-            if (binding.checkBox.isChecked){ GlobalScope.launch(Dispatchers.IO) { sendSmart() }}
-            else {GlobalScope.launch(Dispatchers.IO) { send() }}
-        }
     }
 
-    private fun send() {
-        val formBody = FormBody.Builder()
-            .add("username", binding.textInputFio.text.toString())
-            .add("address", binding.textInputAddress.text.toString())
-            .add("telephone", binding.textInputTelephone.text.toString())
-            .add("smart_count", "False")
-            .build()
-        val request = Request.Builder()
-            .url("$url/water/service/")
-            .put(formBody)
-            .addHeader("Authorization", "Token $token")
-            .build()
+    private fun get(): String {
+        try {
+            val request = Request.Builder()
+                .url("$url/water/editprofile/")
+                .get()
+                .addHeader("Authorization", "Token $token")
+                .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
-        }
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) { return "Exception" }
+                val result = response.body!!.string()
+                Log.d("+++++++++=", result)
+                return result
+            }
+        } catch (e: Exception) { return "Exception" }
     }
-    private fun sendSmart() {
-        val formBody = FormBody.Builder()
-            .add("username", binding.textInputFio.text.toString())
-            .add("address", binding.textInputAddress.text.toString())
-            .add("telephone", binding.textInputTelephone.text.toString())
-            .add("smart_count", counts.toString())
-            .build()
-        val request = Request.Builder()
-            .url("$url/water/service/")
-            .put(formBody)
-            .addHeader("Authorization", "Token $token")
-            .build()
+    private fun post(): String {
+        try {
+            val formBody = FormBody.Builder()
+                .add("fullname", binding.textInputFio.text.toString())
+                .add("place", binding.textInputAddress.text.toString())
+                .add("number_phone", binding.textInputTelephone.text.toString())
+                .add("api_key", api_key)
+                .add("day_of_metersdata", binding.textInputDate.text.toString())
+                .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
-        }
-    }
-    private fun initRecyclerView() {
-        SmartCountAdapter(lists).let {
-            binding.countsRecycler.adapter = it
-            adapter = it
-        }
+            val request = Request.Builder()
+                .url("$url/water/editprofile/")
+                .put(formBody)
+                .addHeader("Authorization", "Token $token")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) { return "Exception" }
+                val result = response.body!!.string()
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
+                return result
+            }
+        } catch (e: Exception) { return "Exception" }
     }
 }

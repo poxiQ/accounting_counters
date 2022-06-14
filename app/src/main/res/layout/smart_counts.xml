@@ -15,7 +15,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <EditText
-        android:id="@+id/textInputTelephone"
+        android:id="@+id/id_registr"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:background="@drawable/et_style"

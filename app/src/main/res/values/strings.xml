@@ -16,7 +16,7 @@
     <string name="skan">сканировать</string>
     <string name="send">отправить</string>
     <string name="master">вызвать мастера</string>
-    <string name="date">dd.mm.YYYY</string>
+    <string name="date">День подачи показаний</string>
     <string name="all_requests">Ваши заявки</string>
     <string name="hiht">Опишите свою проблему</string>
     <string name="choose_with_gallery">выбрать из галереи</string>
@@ -44,6 +44,13 @@
     <string name="smart_counters">Умные счетчики</string>
     <string name="add_count">Номер счетчика</string>
     <string name="add_smart_count">добавить счетчик</string>
+    <string name="id_count">Номер счетчика</string>
+    <string name="id_modem">Номер модема</string>
+    <string name="id_registr">Номер регистратора</string>
+    <string name="cold">холодная вода</string>
+    <string name="hot">горячая вода</string>
+    <string name="smart">умный</string>
+    <string name="notsmart">обычный</string>
 
 
 </resources>

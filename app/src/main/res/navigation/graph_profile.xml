@@ -23,5 +23,24 @@
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_smartCounts"
+            app:destination="@id/smartCounts" />
+        <action
+            android:id="@+id/action_settingsFragment_to_splashFragment5"
+            app:destination="@id/splashFragment5" />
     </fragment>
+    <fragment
+        android:id="@+id/smartCounts"
+        android:name="glebova.rsue.countwater.SmartCounts"
+        android:label="fragment_smart_counts"
+        tools:layout="@layout/fragment_smart_counts" >
+        <action
+            android:id="@+id/action_smartCounts_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment5"
+        android:name="glebova.rsue.countwater.ui.splash.SplashFragment"
+        android:label="SplashFragment" />
 </navigation>
