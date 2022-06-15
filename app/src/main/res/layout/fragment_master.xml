@@ -12,7 +12,7 @@
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
-            android:layout_height="530dp"
+            android:layout_height="550dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,8 +39,7 @@
             android:id="@+id/request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/bgsend"
             android:elevation="5dp"
             android:fontFamily="@font/montserrat_bold"

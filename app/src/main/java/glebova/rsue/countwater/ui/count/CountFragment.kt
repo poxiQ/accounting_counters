@@ -63,10 +63,14 @@ class CountFragment : BaseFragment<FragmentCountBinding>() {
         for (i in 0 until counts.length()) {
             when {
                 counts.getJSONObject(i).getString("typewater") == "1" -> {
-                    counts_list_hot.add(CountModel(1, counts.getJSONObject(i).getString("id_counter")))
+                    if (counts.getJSONObject(i).getString("isclever") == "true"){
+                        counts_list_hot.add(CountModel(1, counts.getJSONObject(i).getString("id_counter"), true))
+                    }else counts_list_hot.add(CountModel(1, counts.getJSONObject(i).getString("id_counter"), false))
                 }
                 counts.getJSONObject(i).getString("typewater") == "0" -> {
-                    counts_list_cold.add(CountModel(0, counts.getJSONObject(i).getString("id_counter")))
+                    if (counts.getJSONObject(i).getString("isclever") == "true"){
+                        counts_list_cold.add(CountModel(0, counts.getJSONObject(i).getString("id_counter"), true))
+                    }else counts_list_cold.add(CountModel(0, counts.getJSONObject(i).getString("id_counter"), false))
                 }
             }
         }

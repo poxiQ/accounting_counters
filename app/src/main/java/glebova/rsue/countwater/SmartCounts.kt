@@ -94,7 +94,7 @@ class SmartCounts : BaseFragment<FragmentSmartCountsBinding>() {
             val formBody = FormBody.Builder()
                 .add("id_counter", binding.idCount.text.toString())
                 .add("typewater", typewater.toString())
-                .add("isclever", isclever.toString())
+                .add("isclever", isclever)
                 .add("id_modem", binding.idModem.text.toString())
                 .add("id_registrator", binding.idRegistr.text.toString())
                 .build()
@@ -106,7 +106,7 @@ class SmartCounts : BaseFragment<FragmentSmartCountsBinding>() {
                 .build()
 
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                if (!response.isSuccessful) return "Exception"
                 val result = response.body!!.string()
                 Log.d("___________", result)
                 return result

@@ -1,8 +1,9 @@
 package glebova.rsue.countwater.ui.statistics
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -15,7 +16,6 @@ import glebova.rsue.countwater.R
 import glebova.rsue.countwater.base.BaseFragment
 import glebova.rsue.countwater.databinding.FragmentStatisticsBinding
 import glebova.rsue.countwater.models.CountModel
-import glebova.rsue.countwater.ui.count.CountFragmentDirections
 import glebova.rsue.countwater.ui.response
 import glebova.rsue.countwater.ui.token
 import glebova.rsue.countwater.ui.url
@@ -76,7 +76,14 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>() {
                     radioButton1.setTextColor(resources.getColor(R.color.black))
                     if (radioButton1.id == 0) radioButton1.setChecked(true)
                     radioGroup2.addView(radioButton1)
-                    counts_list.add(CountModel(radioButton1.id, radioButton1.text as String))
+                    counts_list.add(CountModel(radioButton1.id, radioButton1.text as String, true))
+                    val colorStateList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_enabled),
+                        intArrayOf(android.R.attr.state_enabled)), intArrayOf(
+                        resources.getColor(R.color.lavand),  //disabled
+                        resources.getColor(R.color.purple_500) //enabled
+                    ))
+
+                    radioButton1.setButtonTintList(colorStateList)
                 }
                 sendLineChartData(counts_list[0].title)
                 radioGroup2.setOnCheckedChangeListener { group, checkedId ->

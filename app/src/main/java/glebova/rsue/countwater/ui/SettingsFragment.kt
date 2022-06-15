@@ -19,6 +19,7 @@ import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import java.io.IOException
 
 
 @DelicateCoroutinesApi
@@ -43,6 +44,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             binding.textInputTelephone.setText(JSONObject(response).getString("number_phone"))
             binding.textInputDate.setText(JSONObject(response).getString("day_of_metersdata"))
             api_key = JSONObject(response).getString("api_key")
+            SharedPreferencesSingleton.write("day_of_metersdata", binding.textInputDate.text.toString())
 
             binding.buttonAdd.setOnClickListener {
                 findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmartCounts())
@@ -80,7 +82,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) { return "Exception" }
                 val result = response.body!!.string()
-                Log.d("+++++++++=", result)
                 return result
             }
         } catch (e: Exception) { return "Exception" }
@@ -97,14 +98,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
             val request = Request.Builder()
                 .url("$url/water/editprofile/")
-                .put(formBody)
+                .post(formBody)
                 .addHeader("Authorization", "Token $token")
                 .build()
 
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) { return "Exception" }
+                if (!response.isSuccessful) throw IOException("Unexpected code $response")
                 val result = response.body!!.string()
                 findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
+                SharedPreferencesSingleton.init(requireActivity())
+                SharedPreferencesSingleton.write("fullname", binding.textInputFio.text.toString())
+                SharedPreferencesSingleton.write("place", binding.textInputAddress.text.toString())
+                SharedPreferencesSingleton.write("number_phone", binding.textInputTelephone.text.toString())
+                SharedPreferencesSingleton.write("day_of_metersdata", binding.textInputDate.text.toString())
                 return result
             }
         } catch (e: Exception) { return "Exception" }

@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">CountWater</string>
     <string name="title_profile">profile</string>
     <string name="title_master">master</string>
     <string name="title_count">count</string>
     <string name="title_statistics">statistics</string>
-    <string name="person_count">123456789</string>
+    <string name="person_count" tools:ignore="TypographyDashes">8 (938) 599-62-13</string>
     <string name="person_name">Глебова Ульяна Тимофеевна</string>
     <string name="counts">Ваши счетчики</string>
     <string name="hot_water">Горячее водоснабжение</string>
@@ -51,6 +51,7 @@
     <string name="hot">горячая вода</string>
     <string name="smart">умный</string>
     <string name="notsmart">обычный</string>
+    <string name="tsj">Телефон вашего ТСЖ</string>
 
 
 </resources>

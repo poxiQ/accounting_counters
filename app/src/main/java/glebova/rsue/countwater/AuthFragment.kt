@@ -50,6 +50,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                     response = ""
                     GlobalScope.launch(Dispatchers.IO) { response = get_auth(login, password) }
                     while (response == "") { continue }
+                    Log.d("fjireofkerf", response)
                     token = SharedPreferencesSingleton.read("token", "").toString()
                     when (response) {
                         "Exception" -> {
@@ -102,7 +103,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
             .get()
             .addHeader("Authorization", "Token $token")
             .build()
-        Log.d("fjireofkerf", token)
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
             val result = response.body!!.string()

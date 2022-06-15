@@ -17,6 +17,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         binding.fio.text = SharedPreferencesSingleton.read("fullname", "")
         binding.address.text = SharedPreferencesSingleton.read("place", "")
         binding.telephone.text = SharedPreferencesSingleton.read("number_phone", "")
+        binding.date.text = SharedPreferencesSingleton.read("day_of_metersdata", "")
         binding.settings.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
         }
