@@ -31,6 +31,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        response = ""
         GlobalScope.launch(Dispatchers.IO) { response = get() }
         while (response == "") { continue }
         when (response) {
@@ -61,7 +62,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             }
             binding.buttonSend.setOnClickListener {
                 if (binding.textInputTelephone.text.length == 11 && binding.textInputDate.text.length == 2){
-                    GlobalScope.launch(Dispatchers.IO) { post() }
+                    if(binding.textInputDate.text.toString().toInt() <= 31 && binding.textInputDate.text.toString().toInt()!= 0 ){
+                        GlobalScope.launch(Dispatchers.IO) { post() }
+                    }
                 }else {
                     Toast.makeText(activity?.applicationContext, "некорректное значение", Toast.LENGTH_LONG).show()
                 }
@@ -105,12 +108,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
                 val result = response.body!!.string()
-                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
                 SharedPreferencesSingleton.init(requireActivity())
                 SharedPreferencesSingleton.write("fullname", binding.textInputFio.text.toString())
                 SharedPreferencesSingleton.write("place", binding.textInputAddress.text.toString())
                 SharedPreferencesSingleton.write("number_phone", binding.textInputTelephone.text.toString())
                 SharedPreferencesSingleton.write("day_of_metersdata", binding.textInputDate.text.toString())
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
                 return result
             }
         } catch (e: Exception) { return "Exception" }

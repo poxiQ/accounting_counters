@@ -33,13 +33,19 @@ class CountAdapter(var counters: List<CountModel>, private var callback: (String
             binding.number.text = counters[bindingAdapterPosition].title
             if (counters[bindingAdapterPosition].isclever == false) {
                 binding.buttonAddcount.isEnabled = false
-                binding.buttonAddcount.setBackgroundColor(R.color.grey)
+                binding.buttonAddcount.setBackgroundResource(R.drawable.add_button2)
+                binding.buttonAddcount.setBackgroundResource(R.drawable.ripple_add_button)
+            }else {binding.buttonAddcount.isEnabled = true
+                binding.buttonAddcount.setBackgroundResource(R.drawable.add_button)
             }
             if (SimpleDateFormat("dd",
                     Locale.getDefault()).format(Date()) != SharedPreferencesSingleton.read("day_of_metersdata", "")
             ) {
                 binding.buttonAddcount.isEnabled = false
-                binding.buttonAddcount.setBackgroundColor(R.color.grey)
+                binding.buttonAddcount.setBackgroundResource(R.drawable.add_button2)
+                binding.buttonAddcount.setBackgroundResource(R.drawable.ripple_add_button)
+            }else {binding.buttonAddcount.isEnabled = true
+                binding.buttonAddcount.setBackgroundResource(R.drawable.add_button)
             }
             binding.buttonAddcount.setOnClickListener {
                 callback.invoke(binding.number.text as String)

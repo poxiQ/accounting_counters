@@ -2,6 +2,8 @@ package glebova.rsue.countwater
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -18,7 +20,7 @@ import glebova.rsue.countwater.ui.response
 import glebova.rsue.countwater.ui.token
 import glebova.rsue.countwater.ui.url
 import id.zelory.compressor.Compressor
-import id.zelory.compressor.constraint.default
+import id.zelory.compressor.constraint.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -119,22 +121,30 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
 
     private fun onImageTake() {
         val file = File(photoFile.absolutePath)
-        Log.d("size", photoFile.length().toString())
-
         GlobalScope.launch(Dispatchers.IO) {
-            val compressedImageFile = Compressor.compress(requireContext(), file) {
-                default(width = 640, format = Bitmap.CompressFormat.WEBP)
+            val compressedImageFile = Compressor.compress(requireContext(), file){
+                resolution(480, 640)
+                format(Bitmap.CompressFormat.WEBP)
+                size(1_048_576)
             }
-            Log.d("size", compressedImageFile.length().toString())
-            encodedString = Base64.getEncoder().encodeToString(file.readBytes())
+            Log.d("__________", file.length().toString())
+            Log.d("___________-", compressedImageFile.length().toString())
+            encodedString = if (file.length() >100000)
+                Base64.getEncoder().encodeToString(compressedImageFile.readBytes())
+            else Base64.getEncoder().encodeToString(file.readBytes())
+            Log.d("___________-", encodedString.length.toString())
             GlobalScope.launch(Dispatchers.IO) {
                 response = run()
                 while (response == "") { continue }
+                Log.d("_______________", response)
+
                 if (response != "Exception") {
                     with(binding) {
                         editTextNumber.text.clear()
                         editTextNumber.setText(response)
                     }
+                }else{
+                    Toast.makeText(activity?.applicationContext, "проверьте подключение к сети и повторите вход", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -142,18 +152,26 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>() {
 
     private fun onGetImage(file: File, uri: Uri) {
         val f = File(file.absolutePath)
-        encodedString = Base64.getEncoder().encodeToString(f.readBytes())
         GlobalScope.launch(Dispatchers.IO) {
-            response = run()
-            if (response == "Exception") {
-                Toast.makeText(
-                    activity?.applicationContext,
-                    "качество фотографии слишком низкое",
-                    Toast.LENGTH_LONG
-                ).show()
+            val compressedImageFile = Compressor.compress(requireContext(), f){
+                resolution(480, 640)
+                format(Bitmap.CompressFormat.WEBP)
+                size(1_048_576)
             }
-            while (response == "") { continue }
-            binding.editTextNumber.setText(response)
+            Log.d("__________", f.length().toString())
+            Log.d("___________-", compressedImageFile.length().toString())
+            encodedString = if (f.length() >100000)
+                Base64.getEncoder().encodeToString(compressedImageFile.readBytes())
+            else Base64.getEncoder().encodeToString(f.readBytes())
+            Log.d("___________-", encodedString.length.toString())
+            GlobalScope.launch(Dispatchers.IO) {
+                response = run()
+                while (response == "") { continue }
+                if (response != "Exception") {
+                    if (binding.editTextNumber.text.isNotEmpty()) binding.editTextNumber.clearComposingText()
+                    binding.editTextNumber.setText(response)
+                }
+            }
         }
     }
 

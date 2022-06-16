@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.272" />
         <entry key="app/src/main/res/drawable-v24/ripple_add_button.xml" value="0.316" />
         <entry key="app/src/main/res/drawable/add_button.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/add_button2.xml" value="0.21" />
         <entry key="app/src/main/res/drawable/background.xml" value="0.316" />
         <entry key="app/src/main/res/drawable/bgcold.xml" value="0.316" />
         <entry key="app/src/main/res/drawable/bghot.xml" value="0.316" />
@@ -30,6 +31,7 @@
         <entry key="app/src/main/res/drawable/outline_person_outline_24.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/outline_timeline_24.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/ripple_add_button.xml" value="0.316" />
+        <entry key="app/src/main/res/drawable/ripple_button.xml" value="0.2735" />
         <entry key="app/src/main/res/font/montserrat.xml" value="0.38645833333333335" />
         <entry key="app/src/main/res/font/montserrat_bold.xml" value="0.38645833333333335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -48,12 +50,13 @@
         <entry key="app/src/main/res/layout/fragment_request.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_smart_counts.xml" value="0.28177083333333336" />
-        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.5085501858736059" />
         <entry key="app/src/main/res/layout/fragment_statistics.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_сщгте.xml" value="0.3351449275362319" />
         <entry key="app/src/main/res/layout/lists_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/master_fragment.xml" value="0.5" />
         <entry key="app/src/main/res/layout/number_item.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/numder_item2.xml" value="0.3020833333333333" />
         <entry key="app/src/main/res/layout/smart_counts.xml" value="0.5" />
         <entry key="app/src/main/res/layout/statistics_fragment.xml" value="0.29438405797101447" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.35625" />
