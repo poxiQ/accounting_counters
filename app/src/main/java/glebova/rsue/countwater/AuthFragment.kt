@@ -91,6 +91,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 SharedPreferencesSingleton.write("fullname", JSONObject(result).getString("fullname"))
                 SharedPreferencesSingleton.write("place", JSONObject(result).getString("place"))
                 SharedPreferencesSingleton.write("number_phone", JSONObject(result).getString("number_phone"))
+                SharedPreferencesSingleton.write("day_of_metersdata", JSONObject(result).getString("day_of_metersdata"))
                 return result
             }
         } catch (e: Exception) { return "Ex" }

@@ -14,8 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
         <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
-        <!--        <item name="colorPrimary">@color/white</item>-->
-        <!--        <item name="colorOnPrimary">@color/shrine_pink_900</item>-->
 
     </style>
 </resources>
